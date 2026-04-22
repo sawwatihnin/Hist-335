@@ -517,13 +517,6 @@ const SCHOLARLY_NOTES = [
       "The law did not merely fail Chinese women; it actively sorted them into an inferior legal category. The most important example is People v. Hall, which denied Chinese testimony against white defendants and therefore removed one of the most basic mechanisms through which violence might have been challenged. But legal exclusion worked at multiple scales. Municipal authorities framed prostitution as a sanitary or civic nuisance, not as a system of coercion. Police attention often focused on containment, visibility, and racial ordering rather than protection. Shah's work on public health in Chinatown is useful here because it shows how official knowledge about Chinese bodies was already filtered through suspicion, pathology, and segregation. Within that setting, sexual exploitation became easier to tolerate because the women involved were imagined as both racially alien and administratively manageable.",
     citations: ["hall", "shah", "tong"],
   },
-  {
-    title: "Archival Silences",
-    label: "Why names are missing",
-    body:
-      "A Harvard-style historical reading must also take the archive's silences seriously. Most surviving records were created by officials, judges, missionaries, journalists, or reformers — almost never by the women themselves. That means the archive preserves visibility at the very moment it obscures agency. Census records count women without explaining how they arrived; newspapers narrate sale and rescue while sensationalizing Chinese femininity; missionary documents preserve voices only after translation, mediation, and institutional selection. Reading these materials critically requires triangulation. The point is not to reject the archive, but to ask what each document was built to do: enumerate, criminalize, moralize, rescue, or map. Once framed in that way, fragments begin to speak more clearly. The historian's task is to reconstruct structures without pretending the archive offers transparent access to experience.",
-    citations: ["census1850", "census1860", "mission", "hirata", "yung"],
-  },
 ];
 
 const EARLY_VISUALS = [
@@ -1491,7 +1484,7 @@ function LanternOverlay({ visible, onDismiss, musicEnabled }) {
           Entering the Exhibit
         </h2>
         <p style={{ fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "1rem", lineHeight: 1.8, color: "rgba(255,255,255,0.9)", marginBottom: "1rem" }}>
-          A lantern prelude appears once on first load, then fades. Ambient music is {musicEnabled ? "enabled" : "available"} and accessibility controls remain at the upper right.
+          A lantern prelude appears once on first load, then fades. A historical Chinese recording is {musicEnabled ? "enabled" : "available"} and accessibility controls remain at the upper right.
         </p>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-foil)" }}>
           Click anywhere to continue
@@ -1893,8 +1886,7 @@ export default function App() {
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [musicStatus, setMusicStatus] = useState("idle");
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const audioContextRef = useRef(null);
-  const audioTimerRef = useRef(null);
+  const audioRef = useRef(null);
   const speechRef = useRef(null);
 
   useEffect(() => {
@@ -1916,63 +1908,40 @@ export default function App() {
 
   useEffect(() => {
     return () => {
-      if (audioTimerRef.current) window.clearTimeout(audioTimerRef.current);
-      if (audioContextRef.current) audioContextRef.current.close().catch(() => {});
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
       if (window.speechSynthesis) window.speechSynthesis.cancel();
     };
   }, []);
 
   useEffect(() => {
     if (!musicEnabled) {
-      if (audioTimerRef.current) window.clearTimeout(audioTimerRef.current);
-      if (audioContextRef.current?.state === "running") {
-        audioContextRef.current.suspend().catch(() => {});
+      if (audioRef.current) {
+        audioRef.current.pause();
       }
       setMusicStatus("paused");
       return;
     }
 
     let cancelled = false;
-
-    const scheduleAmbientPhrase = (ctx) => {
-      if (!musicEnabled || cancelled) return;
-      const now = ctx.currentTime + 0.08;
-      const notes = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25];
-      const phrase = [0, 2, 3, 2, 4, 3, 1, 0];
-      phrase.forEach((noteIndex, step) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = step % 2 === 0 ? "triangle" : "sine";
-        osc.frequency.setValueAtTime(notes[noteIndex], now + step * 0.72);
-        gain.gain.setValueAtTime(0.0001, now + step * 0.72);
-        gain.gain.exponentialRampToValueAtTime(0.028, now + step * 0.72 + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + step * 0.72 + 0.62);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now + step * 0.72);
-        osc.stop(now + step * 0.72 + 0.7);
-      });
-      audioTimerRef.current = window.setTimeout(() => scheduleAmbientPhrase(ctx), 6200);
-    };
+    const TRACK_URL = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Yu%20Wang%20Tan%20Ming%20%28c.%201920%29.ogg";
 
     const ensureMusic = async () => {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) {
-        setMusicStatus("unsupported");
-        return;
+      if (!audioRef.current) {
+        const audio = new Audio(TRACK_URL);
+        audio.loop = true;
+        audio.volume = 0.23;
+        audio.preload = "auto";
+        audioRef.current = audio;
       }
 
-      if (!audioContextRef.current) {
-        audioContextRef.current = new AudioCtx();
-      }
-
-      const ctx = audioContextRef.current;
+      const audio = audioRef.current;
       try {
-        if (ctx.state !== "running") {
-          await ctx.resume();
-        }
-        if (!cancelled && !audioTimerRef.current) {
-          scheduleAmbientPhrase(ctx);
+        if (!cancelled) {
+          audio.currentTime = audio.currentTime || 0;
+          await audio.play();
           setMusicStatus("playing");
         }
       } catch {
