@@ -419,6 +419,101 @@ const VISUAL_ARCHIVE = [
   },
 ];
 
+const CITATION_LIBRARY = {
+  hirata: {
+    short: "Hirata, 1979",
+    full: 'Lucie Cheng Hirata, "Free, Indentured, Enslaved: Chinese Prostitutes in Nineteenth-Century America," Signs 5, no. 1 (1979): 3–29.',
+  },
+  tong: {
+    short: "Tong, 1994",
+    full: "Benson Tong, Unsubmissive Women: Chinese Prostitutes in Nineteenth-Century San Francisco, 1850–1920 (Norman: University of Oklahoma Press, 1994).",
+  },
+  yung: {
+    short: "Yung, 1995",
+    full: "Judy Yung, Unbound Feet: A Social History of Chinese Women in San Francisco (Berkeley: University of California Press, 1995).",
+  },
+  shah: {
+    short: "Shah, 2001",
+    full: "Nayan Shah, Contagious Divides: Epidemics and Race in San Francisco's Chinatown (Berkeley: University of California Press, 2001).",
+  },
+  census1850: {
+    short: "U.S. Census, 1850",
+    full: "United States Census Office, The Seventh Census of the United States: 1850 (Washington, DC: Robert Armstrong, 1853).",
+  },
+  census1860: {
+    short: "U.S. Census, 1860",
+    full: "United States Census Office, The Eighth Census of the United States: 1860 (Washington, DC: Government Printing Office, 1864).",
+  },
+  hall: {
+    short: "People v. Hall, 1854",
+    full: "People v. Hall, 4 Cal. 399 (California Supreme Court, 1854).",
+  },
+  mission: {
+    short: "Mission Home Records",
+    full: "Presbyterian Mission Home, occasional papers and late nineteenth-century rescue case records, San Francisco.",
+  },
+  customhouse: {
+    short: "LOC Custom House, 1877",
+    full: "P. Frenzeny, Chinese Immigrants at the San Francisco Custom House, 1877, Library of Congress.",
+    href: "https://lccn.loc.gov/2005696248",
+  },
+  sacramento: {
+    short: "LOC Sacramento St., 1866",
+    full: "Lawrence & Houseworth, San Francisco, Calif. — China Town, Sacramento St., published 1866, Library of Congress.",
+    href: "https://www.loc.gov/pictures/item/2002719264/",
+  },
+  chinatownmap: {
+    short: "LOC Chinatown Map, 1885",
+    full: 'Farwell et al., Official map of "Chinatown" in San Francisco, 1885, Library of Congress.',
+    href: "https://www.loc.gov/item/2012593519/",
+  },
+};
+
+const SCHOLARLY_NOTES = [
+  {
+    title: "Political Economy",
+    label: "Why exploitation expanded",
+    body:
+      "A stronger historical reading treats prostitution not as a marginal vice market but as part of the labor regime that accompanied Gold Rush capitalism. The crucial fact is not simply that Chinese women were few in number; it is that they entered an economy organized around extractive male labor, unstable migration, and speculative profit. Under those conditions, sexual labor became one of the most lucrative urban and camp-side services in California. Hirata's classic argument remains foundational here: Chinese women were pulled into a labor system structured by demand, debt, and racial hierarchy rather than by individual moral failure. Tong and Yung refine this picture by showing how urban brokers, lodging-house keepers, merchants, and tongs transformed migration itself into a profit stream. The result was a political economy in which coercion operated not outside capitalism, but through it.",
+    citations: ["hirata", "tong", "yung", "census1860"],
+  },
+  {
+    title: "Law and Racial Formation",
+    label: "Why violence was durable",
+    body:
+      "The law did not merely fail Chinese women; it actively sorted them into an inferior legal category. The most important example is People v. Hall, which denied Chinese testimony against white defendants and therefore removed one of the most basic mechanisms through which violence might have been challenged. But legal exclusion worked at multiple scales. Municipal authorities framed prostitution as a sanitary or civic nuisance, not as a system of coercion. Police attention often focused on containment, visibility, and racial ordering rather than protection. Shah's work on public health in Chinatown is useful here because it shows how official knowledge about Chinese bodies was already filtered through suspicion, pathology, and segregation. Within that setting, sexual exploitation became easier to tolerate because the women involved were imagined as both racially alien and administratively manageable.",
+    citations: ["hall", "shah", "tong"],
+  },
+  {
+    title: "Archival Silences",
+    label: "Why names are missing",
+    body:
+      "A Harvard-style historical reading must also take the archive's silences seriously. Most surviving records were created by officials, judges, missionaries, journalists, or reformers — almost never by the women themselves. That means the archive preserves visibility at the very moment it obscures agency. Census records count women without explaining how they arrived; newspapers narrate sale and rescue while sensationalizing Chinese femininity; missionary documents preserve voices only after translation, mediation, and institutional selection. Reading these materials critically requires triangulation. The point is not to reject the archive, but to ask what each document was built to do: enumerate, criminalize, moralize, rescue, or map. Once framed in that way, fragments begin to speak more clearly. The historian's task is to reconstruct structures without pretending the archive offers transparent access to experience.",
+    citations: ["census1850", "census1860", "mission", "hirata", "yung"],
+  },
+];
+
+const EARLY_VISUALS = [
+  {
+    src: secondImage,
+    title: "Family Portrait",
+    year: "Late 19th c.",
+    note: "A counterpoint to vice reporting: Chinese migrants also built kin networks, domestic worlds, and intergenerational communities.",
+  },
+  {
+    src: IMG_CHINATOWN_STREET,
+    title: "Sacramento Street, San Francisco",
+    year: "1866",
+    note: "An urban setting that situates exploitation within everyday commercial and residential life.",
+  },
+  {
+    src: IMG_CUSTOM_HOUSE,
+    title: "Custom House Inspection",
+    year: "1877",
+    note: "Arrival, surveillance, and bureaucratic sorting formed part of the coercive system from the port onward.",
+  },
+];
+
 const POPULATION_TIMELINE = [
   {
     year: 1852,
@@ -912,6 +1007,144 @@ function PopulationMap() {
           </div>
         </div>
       </div>
+    </Reveal>
+  );
+}
+
+function CitationPills({ ids, onPanel = false }) {
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "0.95rem" }}>
+      {ids.map((id) => {
+        const source = CITATION_LIBRARY[id];
+        const content = (
+          <>
+            <span>{source.short}</span>
+            <span style={{ marginLeft: "0.45rem", opacity: 0.7 }}>↗</span>
+          </>
+        );
+
+        const baseStyle = {
+          display: "inline-flex",
+          alignItems: "center",
+          fontFamily: "'DM Sans',sans-serif",
+          fontSize: "0.58rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          padding: "0.4rem 0.55rem",
+          border: `1px solid ${onPanel ? "rgba(201,160,80,0.32)" : "var(--card-border)"}`,
+          color: onPanel ? "var(--gold-foil)" : "var(--red-mid)",
+          background: onPanel ? "rgba(247,241,230,0.05)" : "var(--bg)",
+          textDecoration: "none",
+        };
+
+        return source.href ? (
+          <a key={id} href={source.href} target="_blank" rel="noreferrer" title={source.full} style={baseStyle}>
+            {content}
+          </a>
+        ) : (
+          <span key={id} title={source.full} style={baseStyle}>
+            {source.short}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+function ScholarlyPanel({ onPanel = false }) {
+  const [active, setActive] = useState(0);
+  const note = SCHOLARLY_NOTES[active];
+
+  return (
+    <Reveal delay={0.12}>
+      <div
+        style={{
+          border: `1px solid ${onPanel ? "rgba(201,160,80,0.28)" : "var(--card-border)"}`,
+          background: onPanel ? "rgba(247,241,230,0.05)" : "var(--bg2)",
+          padding: "1.15rem",
+          marginTop: "2.5rem",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1rem", flexWrap: "wrap", marginBottom: "1rem" }}>
+          <div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.24em", textTransform: "uppercase", color: onPanel ? "var(--gold-foil)" : "var(--red-mid)", marginBottom: "0.42rem" }}>
+              Scholarly Interpretation
+            </p>
+            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.24rem", fontStyle: "italic", color: onPanel ? "var(--on-panel-xl)" : "var(--ink)", fontWeight: 400 }}>
+              Read the Exhibit as Historical Argument
+            </h3>
+          </div>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.72rem", lineHeight: 1.7, color: onPanel ? "var(--on-panel-l)" : "var(--ink-light)", maxWidth: "320px" }}>
+            These tabs synthesize the exhibit’s evidence in a more explicit analytical register, foregrounding structure, law, and archival method.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", marginBottom: "1rem" }}>
+          {SCHOLARLY_NOTES.map((item, index) => (
+            <button
+              key={item.title}
+              onClick={() => setActive(index)}
+              style={{
+                background: active === index ? (onPanel ? "rgba(201,160,80,0.15)" : "var(--bg)") : "transparent",
+                border: `1px solid ${active === index ? "var(--gold-foil)" : onPanel ? "rgba(201,160,80,0.28)" : "var(--card-border)"}`,
+                color: active === index ? (onPanel ? "var(--gold-foil)" : "var(--red)") : onPanel ? "var(--on-panel-l)" : "var(--ink-light)",
+                padding: "0.55rem 0.8rem",
+                cursor: "pointer",
+                fontFamily: "'DM Sans',sans-serif",
+                fontSize: "0.6rem",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+              }}
+            >
+              {item.title}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ borderTop: `1px solid ${onPanel ? "rgba(201,160,80,0.28)" : "var(--rule)"}`, paddingTop: "1rem" }}>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: onPanel ? "var(--gold-foil)" : "var(--red-mid)", marginBottom: "0.45rem" }}>
+            {note.label}
+          </p>
+          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.08rem", lineHeight: 1.88, color: onPanel ? "var(--on-panel)" : "var(--ink-mid)" }}>
+            {note.body}
+          </p>
+          <CitationPills ids={note.citations} onPanel={onPanel} />
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function InlineVisualCard({ item, delay = 0, onOpen }) {
+  return (
+    <Reveal delay={delay}>
+      <button
+        onClick={() =>
+          onOpen({
+            src: item.src,
+            title: item.title,
+            year: item.year,
+            type: "Context Image",
+            credit: item.note,
+            note: item.note,
+          })
+        }
+        style={{
+          width: "100%",
+          textAlign: "left",
+          background: "var(--bg2)",
+          border: "1px solid var(--card-border)",
+          padding: "0.75rem",
+          cursor: "pointer",
+        }}
+      >
+        <img src={item.src} alt={item.title} style={{ width: "100%", height: "190px", objectFit: "cover", display: "block", marginBottom: "0.75rem" }} />
+        <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.35rem", alignItems: "center" }}>
+          <h4 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.98rem", fontStyle: "italic", color: "var(--ink)", fontWeight: 400 }}>{item.title}</h4>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--red-mid)" }}>{item.year}</span>
+        </div>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.76rem", lineHeight: 1.68, color: "var(--ink-light)" }}>{item.note}</p>
+      </button>
     </Reveal>
   );
 }
@@ -1654,15 +1887,24 @@ export default function App() {
         </Reveal>
         <Reveal delay={0.1} style={{ position: "relative", zIndex: 1 }}>
           <Body>
-            Chinese women in the California Gold Rush were among the most vulnerable people in the American West. While tens of thousands of men migrated in search of economic opportunity, very few Chinese women arrived freely. Many were trafficked, sold, or coerced into prostitution through systems that treated them as commodities rather than individuals.
+            Chinese women in Gold Rush California occupied one of the most precarious positions in the nineteenth-century Pacific world. They entered an expanding frontier economy at the precise intersection of labor scarcity, racial exclusion, and gendered demand. Historians have shown that their exploitation was not a peripheral vice attached to the Gold Rush; it was woven into the broader political economy of western development itself, where mining camps, port cities, merchants, and municipal authorities all benefited from the circulation of vulnerable bodies through systems of debt, coercion, and sale.
           </Body>
           <Body>
-            Their experiences reveal how race, gender, and labor intersected in the formation of early American capitalism. By examining their lives, this exhibit argues that the Gold Rush was not only a story of opportunity and ingenuity — it was also one of exploitation sustained by legal ambiguity, racial hierarchy, and social acceptance.
+            To study these women is therefore to revise the mythology of the Gold Rush. The familiar narrative celebrates mobility, risk, and self-making; the record examined here instead reveals an economy structured by asymmetry. Chinese migrant men were recruited as workers and then taxed, segregated, and criminalized. Chinese women were even more tightly constrained: represented in census returns as anomalies, in newspapers as spectacle, in municipal reports as sanitary threats, and in court records only when they managed to break through the legal barriers designed to keep them silent. Their lives expose how early American capitalism depended not simply on free labor, but on graded regimes of unfreedom.
           </Body>
           <Body>
-            The women whose stories appear here were rarely given names in the historical record. They were catalogued in census tallies, listed in court dockets, described in missionary reports. This exhibit attempts to restore the complexity they were denied.
+            The archive is correspondingly fractured. Many women appear only as tallies, aliases, rescue cases, or objects of litigation. That absence is not an accidental gap: it is itself historical evidence of how racialized and gendered power operated. This exhibit reads against those silences. Rather than treating the absence of full biographies as a reason for analytical caution alone, it treats the thinness of the record as proof of a system that recorded Chinese women primarily when they could be counted, inspected, sold, or disciplined. The task, then, is not to romanticize recovery, but to reconstruct structure with as much rigor as possible while remaining attentive to the fragmentary traces of individual agency.
           </Body>
+          <CitationPills ids={["hirata", "tong", "yung", "shah", "census1850", "census1860"]} />
         </Reveal>
+        <Reveal delay={0.12} style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: "1.2rem", marginTop: "2rem" }}>
+            {EARLY_VISUALS.map((item, i) => (
+              <InlineVisualCard key={item.title} item={item} delay={0.04 * i} onOpen={setActiveVisual} />
+            ))}
+          </div>
+        </Reveal>
+        <ScholarlyPanel />
         <GoldRule wide />
         <Reveal delay={0.15} style={{ position: "relative", zIndex: 1 }}>
           <div style={{ border: "1px solid var(--rule)", padding: "2.5rem 2rem", position: "relative", textAlign: "center" }}>
@@ -1686,11 +1928,12 @@ export default function App() {
             <Label onPanel>Section I</Label>
             <STitle onPanel>Migration and Gender Imbalance</STitle>
             <Body onPanel>
-              The California Gold Rush of 1849 set off one of the largest voluntary migration waves in American history — but it was profoundly gendered. Chinese immigration to California was overwhelmingly male, driven by labor demand in mining and railroad construction. Women represented a fraction of a fraction of arrivals, and among Chinese women, the vast majority did not come freely.
+              The California Gold Rush of 1849 generated one of the most dramatic migration surges in modern U.S. history, yet its Chinese dimension was profoundly gendered from the outset. Census data and shipping records make clear that Chinese immigration was overwhelmingly male, driven by demand for extractive labor, transport work, and service occupations. This imbalance created not merely a demographic curiosity but an entire social field in which women became scarce, highly profitable, and therefore especially vulnerable to coercive forms of migration. The fact that so few Chinese women appear in the record is itself historical evidence: the migration stream was structured to privilege male labor while channeling women through narrower, more tightly controlled routes.
             </Body>
             <Body onPanel>
-              This asymmetry was not incidental. It was structural. Economic pressures in southern China's Pearl River Delta — combined with restrictive American policies — funneled a narrow stream of women into a vast masculine economy with powerful demand for sexual labor.
+              This asymmetry was not incidental. Economic devastation in Guangdong, clan indebtedness, warfare in the Pearl River Delta, and the brokerage systems that linked village economies to Pacific shipping all converged with California’s masculine labor frontier. Women did not simply "follow" migration; they were moved within it under different terms. Brokers, kin intermediaries, and trafficking organizations translated demographic scarcity into market opportunity, so that sexual labor became one of the most lucrative sectors available to those who controlled women’s passage. What emerged was a migration regime in which port entry, debt, employment, and bodily control were mutually reinforcing.
             </Body>
+            <CitationPills ids={["census1850", "census1860", "hirata", "tong"]} onPanel />
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(190px,1fr))", gap: "1.5rem", margin: "3rem 0" }}>
             <StatCard value="~95%" label="of Chinese immigrants were male (1860 Census)" onPanel />
@@ -1728,6 +1971,7 @@ export default function App() {
             ]}
           />
           <PopulationMap />
+          <ScholarlyPanel onPanel />
         </section>
       </RedPanel>
       <EnvelopeFlap toPanel={false} />
@@ -1738,8 +1982,12 @@ export default function App() {
           <Label>Section II</Label>
           <STitle>Systems of Trafficking and Sale</STitle>
           <Body>
-            The exploitation of Chinese women in Gold Rush California was not chaotic or opportunistic — it was organized. A structured system of brokers, contracts, debt bondage, and enforcement networks operated across the Pacific, moving women from villages in Guangdong to brothels in San Francisco, Sacramento, and mining camps throughout the Sierra Nevada foothills.
+            The exploitation of Chinese women in Gold Rush California was not chaotic or merely opportunistic. It rested on a structured transpacific system of brokerage, sale, transport, debt accounting, and enforcement. Women could be purchased from impoverished households, transferred by regional middlemen, shipped across the Pacific under arrangements they did not control, and then assigned to brothels or domestic-sexual labor regimes whose owners treated transportation costs as enforceable debt. Seen this way, trafficking was not the opposite of migration but one of its organized forms within the nineteenth-century Pacific economy.
           </Body>
+          <Body>
+            Historians differ on the exact proportion of women who entered prostitution under direct coercion, but they agree on the system’s architecture: passage, provisioning, and supposed "protection" were converted into escalating obligations that made exit nearly impossible. Violence mattered, but so did bookkeeping. Debt transformed coercion into something traffickers could represent as contract; racial exclusion and linguistic isolation then made those contracts difficult to challenge. What appears in the archive as purchase, rescue, flight, or habeas corpus therefore reflects the operation of a larger infrastructure whose logic was commercial before it was moralized.
+          </Body>
+          <CitationPills ids={["hirata", "tong", "mission"]} />
         </Reveal>
         <Reveal delay={0.1} style={{ position: "relative", zIndex: 1 }}>
           <div style={{ border: "1px solid var(--rule)", padding: "2.5rem 2rem", margin: "2rem 0", position: "relative" }}>
@@ -1771,6 +2019,7 @@ export default function App() {
             },
           ]}
         />
+        <ScholarlyPanel />
       </section>
 
       <EnvelopeFlap toPanel />
@@ -1780,8 +2029,12 @@ export default function App() {
             <Label onPanel>Section III</Label>
             <STitle onPanel>Racialized Sexual Exploitation</STitle>
             <Body onPanel>
-              The exploitation of Chinese women did not occur in a racial vacuum. It was enabled, normalized, and sustained by a particular set of racial attitudes that rendered these women legally invisible and socially disposable in the eyes of dominant American society.
+              The exploitation of Chinese women did not occur in a racial vacuum. It was enabled by a racial order that positioned Chinese migrants as permanently alien, culturally degraded, and only conditionally legible to American law. In print culture, Chinese women were rendered as curiosities, contaminants, or emblems of vice; in legal culture, they were treated as unreliable, unassimilable, and often unreachable except through white institutional intermediaries. Such representations did real work. They lowered the moral cost of abuse while redirecting public attention away from coercion and toward spectacle, sanitation, and racial fear.
             </Body>
+            <Body onPanel>
+              The consequence was not simply prejudice, but differential vulnerability. Once courts, journalists, and city officials treated Chinese women as a population problem rather than rights-bearing persons, trafficking could thrive inside a language of regulation. This is why the history matters beyond the bounds of prostitution alone: it shows how race transformed sexual exploitation from an illicit practice into a tolerated urban arrangement, one that authorities could condemn rhetorically while leaving its underlying conditions intact.
+            </Body>
+            <CitationPills ids={["hall", "shah", "tong"]} onPanel />
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(248px,1fr))", gap: "1.25rem", margin: "2.5rem 0" }}>
             <InfoCard icon={<IcoNewspaper onPanel />} title="Stereotypes in Print" body="Newspapers of the period depicted Chinese women through dehumanizing racial stereotypes." delay={0} onPanel />
@@ -1789,6 +2042,7 @@ export default function App() {
             <InfoCard icon={<IcoTemple onPanel />} title="Legislative Indifference" body="City and state officials framed Chinese prostitution around public health and racial purity, not the welfare of the women themselves." delay={0.2} onPanel />
           </div>
           <Callout onPanel title="Structural Violence" body="Violence against Chinese women was not merely tolerated — it was structurally protected." />
+          <ScholarlyPanel onPanel />
         </section>
       </RedPanel>
       <EnvelopeFlap toPanel={false} />
@@ -1799,8 +2053,12 @@ export default function App() {
           <Label>Section IV</Label>
           <STitle>Resistance and Survival</STitle>
           <Body>
-            To portray Chinese women during the Gold Rush exclusively as victims is to replicate the erasure the historical record has already imposed on them. Despite the overwhelming constraints of debt bondage, physical violence, and legal exclusion, many women resisted.
+            To portray Chinese women during the Gold Rush exclusively as victims is to reproduce the archive’s own flattening effects. Yet recovering agency requires precision. Resistance did not always take dramatic form; often it consisted of calculated movement within impossible constraints: withholding labor, seeking allies, testifying through interpreters of uncertain loyalty, escaping to mission homes, or using habeas corpus petitions to convert moral injury into legal argument. Such acts should not be romanticized, but neither should they be minimized. They reveal that coercive systems were never total, even when they were brutally effective.
           </Body>
+          <Body>
+            Mission records are especially revealing here, though they must be read critically. They were produced by reformers with their own agendas, often casting rescue in paternalist terms. Even so, they preserve traces of women’s strategies that would otherwise vanish: choosing when to flee, whom to trust, when to litigate, and how to narrate compulsion in ways legible to courts and benefactors. The surviving evidence suggests not passive rescue but contested negotiation, in which Chinese women themselves repeatedly forced openings in systems designed to contain them.
+          </Body>
+          <CitationPills ids={["mission", "yung", "tong"]} />
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(235px,1fr))", gap: "1.25rem", margin: "2.5rem 0", position: "relative", zIndex: 1 }}>
           <InfoCard icon={<IcoTemple />} title="Legal Testimony" body="Court records show Chinese women testifying against traffickers and brothel owners in cases where legal avenues were available." delay={0} />
@@ -1815,6 +2073,7 @@ export default function App() {
           <Body>
             The surviving visual record is fragmentary, but it helps situate Chinese women within broader worlds of migration, family, inspection, and urban life. Click any image to open it full size.
           </Body>
+          <CitationPills ids={["customhouse", "sacramento", "chinatownmap"]} />
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "1.35rem", position: "relative", zIndex: 1 }}>
           {VISUAL_ARCHIVE.map((item, i) => (
@@ -1849,8 +2108,12 @@ export default function App() {
           <Label>Primary Sources</Label>
           <STitle>The Documentary Record</STitle>
           <Body>
-            The history documented in this exhibit rests on a collection of primary sources spanning census records, court decisions, missionary reports, and contemporary journalism.
+            The history documented in this exhibit rests on a layered documentary record: federal census schedules, court opinions, missionary reports, urban surveys, maps, engravings, and journalism. None is transparent. Census data enumerate but do not explain; legal opinions reveal structure but flatten lived experience; rescue literature preserves voices while filtering them through reformist frameworks; newspapers publicize trafficking while often sensationalizing the women they describe. Historical interpretation therefore requires triangulation rather than simple extraction.
           </Body>
+          <Body>
+            This exhibit uses primary sources not only to illustrate an argument but to show how different genres of evidence produce different kinds of knowledge. Court records illuminate legal disability, municipal reports show official priorities, maps make spatial concentration visible, and photographs or engravings reveal how Chinese migrants were framed for viewers. Read together, they make possible a history that is both empirical and critical: one attentive to evidence, yet equally attentive to who produced it, for what audience, and under what conditions of racial power.
+          </Body>
+          <CitationPills ids={["census1850", "census1860", "hall", "mission", "customhouse", "sacramento", "chinatownmap"]} />
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(255px,1fr))", gap: "1.5rem", marginTop: "2.5rem", position: "relative", zIndex: 1 }}>
           <SourceCard title="The Seventh Census of the United States" year="1850" desc="Federal census data from 1850 documents the earliest statistical portrait of Chinese immigrants in California." delay={0} />
@@ -1884,6 +2147,7 @@ export default function App() {
             },
           ]}
         />
+        <ScholarlyPanel />
       </section>
 
       <EnvelopeFlap toPanel />
