@@ -389,6 +389,201 @@ const IcoTemple = ({ onPanel = false }) => (
 // ── Decorative image data placeholders ───────────────────────────────────────
 const IMG_SHIP = firstImage;
 const IMG_NEWSPAPER = secondImage;
+const IMG_CUSTOM_HOUSE = "https://cdn.loc.gov/service/pnp/cph/3b00000/3b01000/3b01300/3b01313r.jpg";
+const IMG_CHINATOWN_STREET = "https://cdn.loc.gov/service/pnp/cph/3a20000/3a21000/3a21500/3a21524r.jpg";
+
+const VISUAL_ARCHIVE = [
+  {
+    src: secondImage,
+    title: "Studio Family Portrait",
+    year: "Late 19th c.",
+    type: "Portrait",
+    credit: "Uploaded exhibit image; studio family portrait used here as contextual visual evidence.",
+    note: "This formal portrait shifts the exhibit away from traffic and vice reporting, reminding viewers that Chinese migrants also built households, kinship networks, and intergenerational communities.",
+  },
+  {
+    src: IMG_CUSTOM_HOUSE,
+    title: "Chinese Immigrants at the San Francisco Custom House",
+    year: "1877",
+    type: "Wood engraving",
+    credit: "Library of Congress print via public image service.",
+    note: "This engraving visualizes inspection, surveillance, and arrival — the bureaucratic side of migration that shaped who could enter and under what terms.",
+  },
+  {
+    src: IMG_CHINATOWN_STREET,
+    title: "San Francisco, Calif. — China Town, Sacramento St.",
+    year: "1866",
+    type: "Albumen photograph",
+    credit: "Lawrence & Houseworth, Library of Congress Prints & Photographs Division.",
+    note: "The street scene situates trafficking inside a larger urban world of businesses, residences, pedestrians, and everyday life rather than isolating it as an underground anomaly.",
+  },
+];
+
+const POPULATION_TIMELINE = [
+  {
+    year: 1852,
+    subtitle: "Early Gold Rush boomtown demand",
+    locations: [
+      {
+        name: "San Francisco",
+        coords: [37.7749, -122.4194],
+        value: 320,
+        note: "Port city brothels and lodging houses concentrated the largest early market.",
+      },
+      {
+        name: "Sacramento",
+        coords: [38.5816, -121.4944],
+        value: 90,
+        note: "River transport and commercial traffic linked Sacramento to interior mining camps.",
+      },
+      {
+        name: "Marysville / Northern camps",
+        coords: [39.1457, -121.5914],
+        value: 55,
+        note: "Smaller but significant concentrations followed all-male mining settlements.",
+      },
+      {
+        name: "Sierra foothill camps",
+        coords: [38.8966, -120.9029],
+        value: 140,
+        note: "Dispersed camps created high demand but weaker formal oversight.",
+      },
+    ],
+  },
+  {
+    year: 1860,
+    subtitle: "Peak imbalance and expanded urban concentration",
+    locations: [
+      {
+        name: "San Francisco",
+        coords: [37.7749, -122.4194],
+        value: 1350,
+        note: "Most documented Chinese women in California were in San Francisco by this point, many in coercive labor systems.",
+      },
+      {
+        name: "Sacramento",
+        coords: [38.5816, -121.4944],
+        value: 170,
+        note: "Interior commerce sustained a secondary urban market.",
+      },
+      {
+        name: "Marysville",
+        coords: [39.1457, -121.5914],
+        value: 85,
+        note: "Marysville functioned as a regional gateway for nearby camps.",
+      },
+      {
+        name: "Stockton",
+        coords: [37.9577, -121.2908],
+        value: 70,
+        note: "Stockton linked delta shipping routes to mining districts.",
+      },
+      {
+        name: "Sierra foothill camps",
+        coords: [38.8966, -120.9029],
+        value: 380,
+        note: "Mining settlements remained important destinations even as San Francisco dominated.",
+      },
+    ],
+  },
+  {
+    year: 1870,
+    subtitle: "Urban control and policing deepen",
+    locations: [
+      {
+        name: "San Francisco Chinatown",
+        coords: [37.7941, -122.4078],
+        value: 1500,
+        note: "Concentration intensified inside Chinatown blocks under surveillance, police scrutiny, and tong influence.",
+      },
+      {
+        name: "Sacramento",
+        coords: [38.5816, -121.4944],
+        value: 130,
+        note: "Smaller than San Francisco but still tied to regional vice economies.",
+      },
+      {
+        name: "Stockton",
+        coords: [37.9577, -121.2908],
+        value: 95,
+        note: "Commercial transport corridors helped sustain a smaller but persistent presence.",
+      },
+      {
+        name: "Marysville",
+        coords: [39.1457, -121.5914],
+        value: 45,
+        note: "Northern camp traffic declined but did not disappear.",
+      },
+    ],
+  },
+  {
+    year: 1880,
+    subtitle: "Restriction era with continued concentration",
+    locations: [
+      {
+        name: "San Francisco Chinatown",
+        coords: [37.7941, -122.4078],
+        value: 1100,
+        note: "Numbers contracted but remained concentrated in San Francisco under tighter exclusionary pressure.",
+      },
+      {
+        name: "Sacramento",
+        coords: [38.5816, -121.4944],
+        value: 80,
+        note: "Smaller surviving nodes persisted outside the Bay.",
+      },
+      {
+        name: "Stockton",
+        coords: [37.9577, -121.2908],
+        value: 60,
+        note: "Residual communities remained embedded in port and labor routes.",
+      },
+      {
+        name: "Oakland / East Bay",
+        coords: [37.8044, -122.2711],
+        value: 40,
+        note: "Bay Area spillover illustrates how the geography of control extended beyond one city center.",
+      },
+    ],
+  },
+];
+
+let leafletAssetPromise;
+
+function loadLeafletAssets() {
+  if (typeof window === "undefined") return Promise.resolve(null);
+  if (window.L) return Promise.resolve(window.L);
+  if (leafletAssetPromise) return leafletAssetPromise;
+
+  leafletAssetPromise = new Promise((resolve, reject) => {
+    const existingCss = document.querySelector('link[data-leaflet="true"]');
+    if (!existingCss) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      link.crossOrigin = "";
+      link.dataset.leaflet = "true";
+      document.head.appendChild(link);
+    }
+
+    const existingScript = document.querySelector('script[data-leaflet="true"]');
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(window.L));
+      existingScript.addEventListener("error", reject);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.crossOrigin = "";
+    script.dataset.leaflet = "true";
+    script.onload = () => resolve(window.L);
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
+
+  return leafletAssetPromise;
+}
 
 function ExhibitImage({ src, alt, caption, credit, analysis, onPanel, imageStyle = {} }) {
   const [ref, inView] = useInView(0.05);
@@ -567,6 +762,157 @@ function ExhibitImage({ src, alt, caption, credit, analysis, onPanel, imageStyle
         </div>
       )}
     </div>
+  );
+}
+
+function PopulationMap() {
+  const mapEl = useRef(null);
+  const mapRef = useRef(null);
+  const layerRef = useRef(null);
+  const [yearIndex, setYearIndex] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const activeFrame = POPULATION_TIMELINE[yearIndex];
+
+  useEffect(() => {
+    let cancelled = false;
+
+    loadLeafletAssets()
+      .then((L) => {
+        if (!L || cancelled || mapRef.current || !mapEl.current) return;
+
+        const map = L.map(mapEl.current, {
+          zoomControl: true,
+          scrollWheelZoom: false,
+        }).setView([38.35, -121.65], 6);
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        layerRef.current = L.layerGroup().addTo(map);
+        mapRef.current = map;
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying) return undefined;
+    const id = window.setInterval(() => {
+      setYearIndex((current) => (current + 1) % POPULATION_TIMELINE.length);
+    }, 2200);
+    return () => window.clearInterval(id);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (!mapRef.current || !layerRef.current || !window.L) return;
+    const L = window.L;
+    layerRef.current.clearLayers();
+
+    activeFrame.locations.forEach((location) => {
+      const circle = L.circleMarker(location.coords, {
+        radius: Math.max(10, Math.sqrt(location.value) * 0.72),
+        color: "#8b1a1a",
+        weight: 2,
+        fillColor: "#c9a050",
+        fillOpacity: 0.55,
+      }).addTo(layerRef.current);
+
+      circle.bindPopup(
+        `<div style="font-family: Georgia, serif; line-height:1.55;">
+          <strong>${location.name}</strong><br/>
+          Estimated concentration: ${location.value}<br/>
+          <span style="font-family: Arial, sans-serif; font-size:12px; color:#555;">${location.note}</span>
+        </div>`
+      );
+    });
+  }, [activeFrame]);
+
+  return (
+    <Reveal delay={0.1}>
+      <div style={{ border: "1px solid var(--card-border)", background: "var(--bg2)", padding: "1rem", marginTop: "2rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "1rem", marginBottom: "0.9rem", flexWrap: "wrap" }}>
+          <div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.45rem" }}>
+              Interactive Map
+            </p>
+            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontStyle: "italic", color: "var(--ink)", fontWeight: 400, marginBottom: "0.3rem" }}>
+              Estimated Geography of Coercive Chinese Sexual Labor
+            </h3>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.8rem", lineHeight: 1.7, color: "var(--ink-light)", maxWidth: "680px" }}>
+              Move through time to see how the exhibit’s interpretive estimates shift from dispersed Gold Rush camp demand toward tighter urban concentration, especially in San Francisco. Circle size represents estimated concentration, not exact census totals.
+            </p>
+          </div>
+          <button
+            onClick={() => setIsPlaying((v) => !v)}
+            style={{
+              background: isPlaying ? "var(--red)" : "transparent",
+              color: isPlaying ? "var(--bg)" : "var(--red)",
+              border: "1px solid var(--red)",
+              padding: "0.55rem 0.85rem",
+              cursor: "pointer",
+              fontFamily: "'DM Sans',sans-serif",
+              fontSize: "0.62rem",
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+            }}
+          >
+            {isPlaying ? "Pause Timeline" : "Play Timeline"}
+          </button>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 240px", gap: "1rem", alignItems: "stretch" }}>
+          <div>
+            <div ref={mapEl} style={{ height: "460px", width: "100%", border: "1px solid var(--rule)" }} />
+          </div>
+          <div style={{ border: "1px solid var(--rule)", padding: "1rem", background: "var(--bg)" }}>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.55rem" }}>
+              Time Slice
+            </p>
+            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "2.2rem", color: "var(--red)", fontStyle: "italic", lineHeight: 1, marginBottom: "0.45rem" }}>
+              {activeFrame.year}
+            </div>
+            <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1.04rem", color: "var(--ink)", lineHeight: 1.5, marginBottom: "1rem" }}>
+              {activeFrame.subtitle}
+            </p>
+            <input
+              type="range"
+              min="0"
+              max={POPULATION_TIMELINE.length - 1}
+              step="1"
+              value={yearIndex}
+              onChange={(e) => setYearIndex(Number(e.target.value))}
+              style={{ width: "100%", accentColor: "#8b1a1a", marginBottom: "0.9rem" }}
+            />
+            <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'DM Sans',sans-serif", fontSize: "0.62rem", color: "var(--ink-light)", marginBottom: "1rem" }}>
+              {POPULATION_TIMELINE.map((frame) => (
+                <span key={frame.year}>{frame.year}</span>
+              ))}
+            </div>
+            <div style={{ borderTop: "1px solid var(--rule)", paddingTop: "0.9rem" }}>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold-foil)", marginBottom: "0.5rem" }}>
+                Reading the Map
+              </p>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.77rem", lineHeight: 1.72, color: "var(--ink-light)", marginBottom: "0.6rem" }}>
+                These are exhibit estimates derived from the gender imbalance shown in census data, urban concentration patterns, and historical synthesis in Lucie Cheng Hirata, Judy Yung, and Benson Tong.
+              </p>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.77rem", lineHeight: 1.72, color: "var(--ink-light)" }}>
+                The visualization is meant to show geographic concentration over time, not exact individual counts. Click circles for location-specific context.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Reveal>
   );
 }
 
@@ -1031,6 +1377,101 @@ function SourceCard({ title, year, desc, delay = 0 }) {
   );
 }
 
+function ArchiveCard({ item, delay = 0, onOpen }) {
+  return (
+    <Reveal delay={delay}>
+      <button
+        onClick={() => onOpen(item)}
+        style={{
+          width: "100%",
+          textAlign: "left",
+          background: "var(--bg2)",
+          border: "1px solid var(--card-border)",
+          padding: "0.75rem",
+          cursor: "pointer",
+          transition: "transform .3s ease, border-color .3s ease, box-shadow .3s ease",
+          boxShadow: "0 14px 32px rgba(42,26,14,0.08)",
+        }}
+      >
+        <div style={{ overflow: "hidden", background: "var(--bg3)", marginBottom: "0.9rem" }}>
+          <img
+            src={item.src}
+            alt={item.title}
+            style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center center", display: "block" }}
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", marginBottom: "0.55rem" }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.56rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--red-mid)" }}>{item.type}</span>
+          <span style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", color: "var(--ink-light)", fontSize: "0.9rem" }}>{item.year}</span>
+        </div>
+        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", fontStyle: "italic", color: "var(--ink)", marginBottom: "0.45rem", fontWeight: 400 }}>{item.title}</h3>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.78rem", lineHeight: 1.7, color: "var(--ink-light)", marginBottom: "0.75rem" }}>{item.note}</p>
+        <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-foil)" }}>Open Full View</span>
+      </button>
+    </Reveal>
+  );
+}
+
+function Lightbox({ item, onClose }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [item, onClose]);
+
+  if (!item) return null;
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(18,12,8,0.82)",
+        zIndex: 500,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: "min(1080px, 100%)",
+          maxHeight: "90vh",
+          overflow: "auto",
+          background: "var(--bg)",
+          border: "1px solid var(--gold-foil)",
+          padding: "1rem",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.35)",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", marginBottom: "0.75rem" }}>
+          <div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.56rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.35rem" }}>{item.type} | {item.year}</p>
+            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.2rem", fontStyle: "italic", color: "var(--ink)", fontWeight: 400 }}>{item.title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            style={{ background: "none", border: "1px solid var(--rule)", padding: "0.45rem 0.75rem", cursor: "pointer", fontFamily: "'DM Sans',sans-serif", fontSize: "0.6rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--ink-light)" }}
+          >
+            Close
+          </button>
+        </div>
+        <img src={item.src} alt={item.title} style={{ width: "100%", maxHeight: "68vh", objectFit: "contain", display: "block", background: "var(--bg3)" }} />
+        <div style={{ borderTop: "1px solid var(--rule)", marginTop: "0.85rem", paddingTop: "0.85rem" }}>
+          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1rem", lineHeight: 1.7, color: "var(--ink)" }}>{item.note}</p>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.72rem", lineHeight: 1.7, color: "var(--ink-light)", marginTop: "0.55rem" }}>{item.credit}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TLItem({ year, event, detail, delay = 0, onPanel = false }) {
   return (
     <Reveal delay={delay}>
@@ -1091,6 +1532,7 @@ function PStep({ num, label, text }) {
 export default function App() {
   const [dark, setDark] = useState(false);
   const [heroReady, setHeroReady] = useState(false);
+  const [activeVisual, setActiveVisual] = useState(null);
   useEffect(() => {
     const t = setTimeout(() => setHeroReady(true), 120);
     return () => clearTimeout(t);
@@ -1285,6 +1727,7 @@ export default function App() {
               },
             ]}
           />
+          <PopulationMap />
         </section>
       </RedPanel>
       <EnvelopeFlap toPanel={false} />
@@ -1365,6 +1808,19 @@ export default function App() {
           <InfoCard icon={<IcoHands />} title="Community Networks" body="Within Chinese communities, informal networks sometimes provided information, shelter, or assistance." delay={0.16} />
           <InfoCard icon={<IcoBalance />} title="Legal Action" body="Women who gained access to legal resources sometimes sought writs of habeas corpus to challenge their detention." delay={0.24} />
         </div>
+        <GoldRule />
+        <Reveal delay={0.08} style={{ position: "relative", zIndex: 1 }}>
+          <Label>Visual Archive</Label>
+          <STitle>Open the Wider Visual Record</STitle>
+          <Body>
+            The surviving visual record is fragmentary, but it helps situate Chinese women within broader worlds of migration, family, inspection, and urban life. Click any image to open it full size.
+          </Body>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "1.35rem", position: "relative", zIndex: 1 }}>
+          {VISUAL_ARCHIVE.map((item, i) => (
+            <ArchiveCard key={item.title} item={item} delay={0.06 * i} onOpen={setActiveVisual} />
+          ))}
+        </div>
       </section>
 
       <EnvelopeFlap toPanel />
@@ -1400,7 +1856,34 @@ export default function App() {
           <SourceCard title="The Seventh Census of the United States" year="1850" desc="Federal census data from 1850 documents the earliest statistical portrait of Chinese immigrants in California." delay={0} />
           <SourceCard title="People v. Hall" year="1854" desc="This California Supreme Court ruling barred Chinese, Black, and Indigenous people from testifying against white defendants." delay={0.21} />
           <SourceCard title="Presbyterian Mission Home Records" year="Late 19th c." desc="Occasional papers and case records document the conditions women described upon arrival." delay={0.28} />
+          <SourceCard title="Chinese Immigrants at the San Francisco Custom House" year="1877" desc="A wood engraving of Chinese immigrants at a San Francisco inspection site, showing arrival as bureaucratic sorting and surveillance." delay={0.35} />
+          <SourceCard title='Official Map of "Chinatown" in San Francisco' year="1885" desc='This map documents businesses, occupancies, gambling houses, and racialized labeling of Chinatown block by block.' delay={0.42} />
+          <SourceCard title="San Francisco, Calif. — China Town, Sacramento St." year="1866" desc="An albumen street view that places migration and commerce inside a lived urban environment rather than a purely sensational one." delay={0.49} />
         </div>
+        <ExhibitImage
+          src={IMG_CUSTOM_HOUSE}
+          alt="Chinese immigrants at the San Francisco Custom House, wood engraving, 1877"
+          caption="Chinese Immigrants at the San Francisco Custom House"
+          credit="P. Frenzeny, 1877 wood engraving. Library of Congress."
+          analysis={[
+            {
+              q: "1. Publication & Attribution",
+              a: "This 1877 wood engraving depicts Chinese immigrants at the San Francisco Custom House. It circulated as a period printed image and survives through the Library of Congress.",
+            },
+            {
+              q: "2. What It Shows",
+              a: "The image emphasizes inspection, waiting, and oversight rather than individual stories. Chinese migrants appear as a managed population moving through bureaucratic space under scrutiny.",
+            },
+            {
+              q: "3. Why It Matters",
+              a: "For this exhibit, the engraving helps connect trafficking to migration control. Women did not arrive into a social vacuum; they entered a port regime that sorted bodies, monitored movement, and shaped vulnerability from the moment of landing.",
+            },
+            {
+              q: "4. Historical Questions",
+              a: "Who was being inspected? How did officials differentiate men from women? How did documentation, debt, and racial profiling affect what happened after arrival in port cities like San Francisco?",
+            },
+          ]}
+        />
       </section>
 
       <EnvelopeFlap toPanel />
@@ -1450,6 +1933,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      <Lightbox item={activeVisual} onClose={() => setActiveVisual(null)} />
     </div>
   );
 }
