@@ -8,7 +8,7 @@ const FontLoader = () => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href =
-      "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap";
+      "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600&family=Atkinson+Hyperlegible:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap";
     document.head.appendChild(link);
   }, []);
   return null;
@@ -77,11 +77,42 @@ const DARK = {
   "--toggle-fg": "#120c08",
 };
 
+const HIGH_CONTRAST = {
+  "--bg": "#000000",
+  "--bg2": "#0b0b0b",
+  "--bg3": "#111111",
+  "--panel": "#111111",
+  "--panel2": "#000000",
+  "--red": "#ff5c5c",
+  "--red-mid": "#ff8080",
+  "--red-dim": "rgba(255,92,92,0.28)",
+  "--gold": "#ffd84d",
+  "--gold-foil": "#fff17a",
+  "--gold-dim": "rgba(255,241,122,0.26)",
+  "--ink": "#ffffff",
+  "--ink-mid": "rgba(255,255,255,0.92)",
+  "--ink-light": "rgba(255,255,255,0.82)",
+  "--ink-faint": "rgba(255,255,255,0.6)",
+  "--rule": "rgba(255,241,122,0.5)",
+  "--rule-red": "rgba(255,92,92,0.45)",
+  "--icon-bg": "#fff17a",
+  "--icon-fg": "#000000",
+  "--icon-bg-panel": "rgba(255,241,122,0.16)",
+  "--icon-fg-panel": "#fff17a",
+  "--on-panel": "rgba(255,255,255,0.96)",
+  "--on-panel-l": "rgba(255,255,255,0.8)",
+  "--on-panel-xl": "#ffffff",
+  "--card-bg": "#000000",
+  "--card-border": "rgba(255,241,122,0.45)",
+  "--toggle-bg": "#000000",
+  "--toggle-fg": "#ffffff",
+};
+
 // ── GlobalStyles injects CSS vars + keyframes ─────────────────────────────────
-const GlobalStyles = ({ dark }) => {
+const GlobalStyles = ({ theme }) => {
   useEffect(() => {
     const el = document.createElement("style");
-    const tokens = dark ? DARK : LIGHT;
+    const tokens = theme === "dark" ? DARK : theme === "contrast" ? HIGH_CONTRAST : LIGHT;
     const vars = Object.entries(tokens)
       .map(([k, v]) => `${k}:${v}`)
       .join(";");
@@ -89,15 +120,17 @@ const GlobalStyles = ({ dark }) => {
       :root{${vars}}
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
       html{scroll-behavior:smooth}
-      body{background:var(--bg)}
+      body{background:var(--bg);color:var(--ink);font-family:'Atkinson Hyperlegible','DM Sans',sans-serif}
       ::selection{background:var(--red-dim);color:var(--ink)}
       @keyframes breathe{0%,100%{opacity:.8;transform:scaleY(1)}50%{opacity:.2;transform:scaleY(.5)}}
       @keyframes sealPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
       @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+      @keyframes lanternFloat{0%,100%{transform:translateY(0px)}50%{transform:translateY(-10px)}}
+      @keyframes lanternGlow{0%,100%{box-shadow:0 0 20px rgba(255,241,122,0.18),0 0 55px rgba(255,92,92,0.12)}50%{box-shadow:0 0 30px rgba(255,241,122,0.32),0 0 75px rgba(255,92,92,0.18)}}
     `;
     document.head.appendChild(el);
     return () => document.head.removeChild(el);
-  }, [dark]);
+  }, [theme]);
   return null;
 };
 
@@ -1342,39 +1375,129 @@ function SideNav() {
   );
 }
 
-function ModeToggle({ dark, onToggle }) {
+function AccessibilityDock({
+  theme,
+  onThemeCycle,
+  isSpeaking,
+  onSpeakToggle,
+  musicEnabled,
+  onMusicToggle,
+}) {
+  const label = theme === "light" ? "Light" : theme === "dark" ? "Dark" : "Contrast";
   return (
-    <button
-      onClick={onToggle}
-      title={dark ? "Switch to light mode" : "Switch to dark mode"}
+    <div
       style={{
         position: "fixed",
         top: "1.25rem",
         right: "2.5rem",
         zIndex: 300,
         display: "flex",
-        alignItems: "center",
+        flexDirection: "column",
         gap: "0.5rem",
-        padding: "0.4rem 0.85rem 0.4rem 0.5rem",
-        background: "var(--toggle-bg)",
-        border: "1px solid var(--gold-foil)",
-        borderRadius: "999px",
-        cursor: "pointer",
       }}
     >
-      <span
-        style={{
-          fontFamily: "'DM Sans',sans-serif",
-          fontSize: "0.62rem",
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: "var(--toggle-fg)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {dark ? "Light mode" : "Dark mode"}
-      </span>
-    </button>
+      {[
+        { key: "theme", text: `Theme: ${label}`, onClick: onThemeCycle, title: "Switch theme" },
+        { key: "tts", text: isSpeaking ? "Stop Narration" : "Read Aloud", onClick: onSpeakToggle, title: "Toggle text to speech" },
+        { key: "music", text: musicEnabled ? "Mute Music" : "Play Music", onClick: onMusicToggle, title: "Toggle ambient music" },
+      ].map((item) => (
+        <button
+          key={item.key}
+          onClick={item.onClick}
+          title={item.title}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "0.5rem",
+            padding: "0.45rem 0.9rem",
+            minWidth: "162px",
+            background: "var(--toggle-bg)",
+            border: "1px solid var(--gold-foil)",
+            borderRadius: "999px",
+            cursor: "pointer",
+            boxShadow: "0 8px 26px rgba(0,0,0,0.12)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'DM Sans',sans-serif",
+              fontSize: "0.62rem",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "var(--toggle-fg)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item.text}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function LanternOverlay({ visible, onDismiss, musicEnabled }) {
+  useEffect(() => {
+    if (!visible) return undefined;
+    const id = window.setTimeout(onDismiss, 4200);
+    return () => window.clearTimeout(id);
+  }, [visible, onDismiss]);
+
+  if (!visible) return null;
+
+  return (
+    <div
+      onClick={onDismiss}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 450,
+        background: "radial-gradient(circle at center, rgba(25,15,10,0.78) 0%, rgba(10,6,4,0.94) 70%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem",
+      }}
+    >
+      <div style={{ textAlign: "center", maxWidth: "780px" }}>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.62rem", letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--gold-foil)", marginBottom: "1rem" }}>
+          Opening Exhibit
+        </p>
+        <div style={{ display: "flex", justifyContent: "center", gap: "clamp(0.8rem,2vw,2.25rem)", marginBottom: "2rem", flexWrap: "wrap" }}>
+          {[0, 1, 2, 3, 4].map((index) => (
+            <div
+              key={index}
+              style={{
+                width: "92px",
+                height: "132px",
+                borderRadius: "20px 20px 28px 28px",
+                background: "linear-gradient(180deg,#d93333 0%, #8b1a1a 65%, #631111 100%)",
+                border: "2px solid rgba(255,241,122,0.72)",
+                position: "relative",
+                animation: `lanternFloat ${3.6 + index * 0.35}s ease-in-out infinite`,
+                boxShadow: "0 0 20px rgba(255,241,122,0.18),0 0 55px rgba(255,92,92,0.12)",
+              }}
+            >
+              <div style={{ position: "absolute", top: "-18px", left: "50%", transform: "translateX(-50%)", width: "2px", height: "18px", background: "rgba(255,241,122,0.8)" }} />
+              <div style={{ position: "absolute", top: "8px", bottom: "8px", left: "50%", width: "1px", background: "rgba(255,241,122,0.36)", transform: "translateX(-50%)" }} />
+              <div style={{ position: "absolute", left: "18px", right: "18px", top: "18px", height: "1px", background: "rgba(255,241,122,0.32)" }} />
+              <div style={{ position: "absolute", left: "18px", right: "18px", bottom: "18px", height: "1px", background: "rgba(255,241,122,0.32)" }} />
+              <div style={{ position: "absolute", inset: "22px", borderRadius: "18px", background: "radial-gradient(circle at center, rgba(255,241,122,0.3), transparent 70%)", animation: "lanternGlow 2.8s ease-in-out infinite" }} />
+            </div>
+          ))}
+        </div>
+        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", fontStyle: "italic", fontWeight: 400, color: "#fff7d1", marginBottom: "0.85rem" }}>
+          Entering the Exhibit
+        </h2>
+        <p style={{ fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "1rem", lineHeight: 1.8, color: "rgba(255,255,255,0.9)", marginBottom: "1rem" }}>
+          A lantern prelude appears once on first load, then fades. Ambient music is {musicEnabled ? "enabled" : "available"} and accessibility controls remain at the upper right.
+        </p>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-foil)" }}>
+          Click anywhere to continue
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -1418,10 +1541,10 @@ const STitle = ({ children, center = false, onPanel = false }) => (
 const Body = ({ children, center = false, onPanel = false, sx = {} }) => (
   <p
     style={{
-      fontFamily: "'Cormorant Garamond',serif",
-      fontSize: "clamp(1.05rem,1.45vw,1.18rem)",
-      fontWeight: 300,
-      lineHeight: 1.9,
+      fontFamily: "'Source Serif 4',serif",
+      fontSize: "clamp(1.02rem,1.3vw,1.14rem)",
+      fontWeight: 400,
+      lineHeight: 1.85,
       color: onPanel ? "var(--on-panel)" : "var(--ink-mid)",
       marginBottom: "1.25rem",
       textAlign: center ? "center" : "left",
@@ -1763,13 +1886,154 @@ function PStep({ num, label, text }) {
 }
 
 export default function App() {
-  const [dark, setDark] = useState(false);
+  const [theme, setTheme] = useState("light");
   const [heroReady, setHeroReady] = useState(false);
   const [activeVisual, setActiveVisual] = useState(null);
+  const [showLanternOverlay, setShowLanternOverlay] = useState(false);
+  const [musicEnabled, setMusicEnabled] = useState(true);
+  const [musicStatus, setMusicStatus] = useState("idle");
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const audioContextRef = useRef(null);
+  const audioTimerRef = useRef(null);
+  const speechRef = useRef(null);
+
   useEffect(() => {
     const t = setTimeout(() => setHeroReady(true), 120);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    try {
+      const seenLantern = window.localStorage.getItem("hist335-lantern-seen");
+      if (!seenLantern) {
+        setShowLanternOverlay(true);
+        window.localStorage.setItem("hist335-lantern-seen", "true");
+      }
+    } catch {
+      setShowLanternOverlay(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (audioTimerRef.current) window.clearTimeout(audioTimerRef.current);
+      if (audioContextRef.current) audioContextRef.current.close().catch(() => {});
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!musicEnabled) {
+      if (audioTimerRef.current) window.clearTimeout(audioTimerRef.current);
+      if (audioContextRef.current?.state === "running") {
+        audioContextRef.current.suspend().catch(() => {});
+      }
+      setMusicStatus("paused");
+      return;
+    }
+
+    let cancelled = false;
+
+    const scheduleAmbientPhrase = (ctx) => {
+      if (!musicEnabled || cancelled) return;
+      const now = ctx.currentTime + 0.08;
+      const notes = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25];
+      const phrase = [0, 2, 3, 2, 4, 3, 1, 0];
+      phrase.forEach((noteIndex, step) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = step % 2 === 0 ? "triangle" : "sine";
+        osc.frequency.setValueAtTime(notes[noteIndex], now + step * 0.72);
+        gain.gain.setValueAtTime(0.0001, now + step * 0.72);
+        gain.gain.exponentialRampToValueAtTime(0.028, now + step * 0.72 + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + step * 0.72 + 0.62);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + step * 0.72);
+        osc.stop(now + step * 0.72 + 0.7);
+      });
+      audioTimerRef.current = window.setTimeout(() => scheduleAmbientPhrase(ctx), 6200);
+    };
+
+    const ensureMusic = async () => {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) {
+        setMusicStatus("unsupported");
+        return;
+      }
+
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioCtx();
+      }
+
+      const ctx = audioContextRef.current;
+      try {
+        if (ctx.state !== "running") {
+          await ctx.resume();
+        }
+        if (!cancelled && !audioTimerRef.current) {
+          scheduleAmbientPhrase(ctx);
+          setMusicStatus("playing");
+        }
+      } catch {
+        setMusicStatus("blocked");
+      }
+    };
+
+    ensureMusic();
+
+    const activateOnGesture = () => {
+      ensureMusic();
+    };
+
+    window.addEventListener("pointerdown", activateOnGesture, { passive: true });
+    window.addEventListener("keydown", activateOnGesture);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("pointerdown", activateOnGesture);
+      window.removeEventListener("keydown", activateOnGesture);
+    };
+  }, [musicEnabled]);
+
+  const cycleTheme = () => {
+    setTheme((current) => (current === "light" ? "dark" : current === "dark" ? "contrast" : "light"));
+  };
+
+  const dismissLanternOverlay = () => {
+    setShowLanternOverlay(false);
+  };
+
+  const toggleMusic = async () => {
+    setMusicEnabled((current) => !current);
+  };
+
+  const toggleSpeech = () => {
+    if (!window.speechSynthesis) return;
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      speechRef.current = null;
+      return;
+    }
+
+    const selection = document.querySelector("main")?.innerText || document.body.innerText;
+    const utterance = new SpeechSynthesisUtterance(selection.slice(0, 12000));
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      speechRef.current = null;
+    };
+    utterance.onerror = () => {
+      setIsSpeaking(false);
+      speechRef.current = null;
+    };
+    speechRef.current = utterance;
+    setIsSpeaking(true);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  };
 
   const W = { maxWidth: "920px", margin: "0 auto", padding: "6rem 2.5rem" };
   const WR = { maxWidth: "920px", margin: "0 auto", padding: "5.5rem 2.5rem", position: "relative", zIndex: 1 };
@@ -1777,11 +2041,42 @@ export default function App() {
   return (
     <div style={{ background: "var(--bg)", minHeight: "100vh", overflowX: "hidden", transition: "background 0.4s ease" }}>
       <FontLoader />
-      <GlobalStyles dark={dark} />
+      <GlobalStyles theme={theme} />
       <ProgressBar />
       <SideNav />
-      <ModeToggle dark={dark} onToggle={() => setDark((d) => !d)} />
+      <AccessibilityDock
+        theme={theme}
+        onThemeCycle={cycleTheme}
+        isSpeaking={isSpeaking}
+        onSpeakToggle={toggleSpeech}
+        musicEnabled={musicEnabled}
+        onMusicToggle={toggleMusic}
+      />
+      <LanternOverlay visible={showLanternOverlay} onDismiss={dismissLanternOverlay} musicEnabled={musicEnabled} />
+      {musicStatus === "blocked" && (
+        <div
+          style={{
+            position: "fixed",
+            left: "1.5rem",
+            bottom: "1.5rem",
+            zIndex: 310,
+            maxWidth: "320px",
+            padding: "0.75rem 0.9rem",
+            background: "var(--bg)",
+            border: "1px solid var(--gold-foil)",
+            boxShadow: "0 10px 28px rgba(0,0,0,0.15)",
+          }}
+        >
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.66rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.35rem" }}>
+            Music Ready
+          </p>
+          <p style={{ fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "0.82rem", lineHeight: 1.65, color: "var(--ink-light)" }}>
+            Your browser blocked autoplay with sound. Use the music button at the upper right or click anywhere to start the ambient track.
+          </p>
+        </div>
+      )}
 
+      <main>
       <section
         data-section="0"
         style={{
@@ -2197,6 +2492,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      </main>
       <Lightbox item={activeVisual} onClose={() => setActiveVisual(null)} />
     </div>
   );
