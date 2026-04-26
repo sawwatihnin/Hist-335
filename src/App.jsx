@@ -4,8 +4,76 @@ import secondImage from "./assets/second-image.png";
 
 const YOUTUBE_VIDEO_ID = "GwyXQO0tSW4";
 const YOUTUBE_EMBED_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&disablekb=1&modestbranding=1&rel=0`;
-const IMG_CHINATOWN_MAP = "https://cdn.loc.gov/service/gmd/gmd382m/g3824s/pm005550.jpg";
-const IMG_GOLD_MOUNTAIN = "https://upload.wikimedia.org/wikipedia/commons/8/82/The_Golden_Mountain%2C_Arriving_San_Francisco_by_Mian_Situ.jpg";
+const svgDataUri = (svg) => `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+
+const IMG_GOLD_MOUNTAIN = svgDataUri(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#efe4cb"/>
+  <rect y="500" width="1200" height="260" fill="#d9c49b"/>
+  <rect y="380" width="1200" height="120" fill="#b8d4db"/>
+  <path d="M0 410 L190 280 L360 390 L560 230 L760 360 L980 210 L1200 360 L1200 0 L0 0 Z" fill="#caa46a"/>
+  <rect x="250" y="285" width="620" height="170" rx="18" fill="#8b1a1a"/>
+  <rect x="210" y="440" width="700" height="38" rx="12" fill="#5b3418"/>
+  <rect x="530" y="150" width="24" height="190" fill="#5b3418"/>
+  <path d="M554 160 L760 250 L554 285 Z" fill="#d98d5f"/>
+  <g fill="#402015">
+    <circle cx="360" cy="468" r="18"/><circle cx="420" cy="462" r="17"/><circle cx="485" cy="470" r="19"/><circle cx="660" cy="468" r="18"/><circle cx="720" cy="462" r="17"/><circle cx="785" cy="470" r="19"/>
+  </g>
+  <text x="600" y="660" text-anchor="middle" font-family="Georgia, serif" font-size="48" fill="#6e1d1d">The Golden Mountain</text>
+  <text x="600" y="710" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3418">Arriving San Francisco, 1865</text>
+</svg>`);
+
+const IMG_CHINATOWN_STREET = svgDataUri(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f2ead8"/>
+  <rect y="490" width="1200" height="270" fill="#d7c4a1"/>
+  <rect x="80" y="180" width="260" height="320" fill="#8b1a1a"/>
+  <rect x="390" y="140" width="210" height="360" fill="#9c6a3d"/>
+  <rect x="660" y="170" width="200" height="330" fill="#7a4b2e"/>
+  <rect x="900" y="210" width="220" height="290" fill="#8b1a1a"/>
+  <g fill="#f6e9bf">
+    <rect x="120" y="230" width="65" height="90"/><rect x="220" y="230" width="65" height="90"/>
+    <rect x="430" y="220" width="48" height="70"/><rect x="510" y="220" width="48" height="70"/>
+    <rect x="710" y="235" width="46" height="74"/><rect x="780" y="235" width="46" height="74"/>
+    <rect x="955" y="260" width="60" height="82"/><rect x="1035" y="260" width="60" height="82"/>
+  </g>
+  <g fill="#402015">
+    <circle cx="270" cy="560" r="18"/><circle cx="350" cy="545" r="18"/><circle cx="460" cy="565" r="18"/><circle cx="580" cy="550" r="18"/><circle cx="760" cy="565" r="18"/><circle cx="910" cy="550" r="18"/>
+  </g>
+  <text x="600" y="675" text-anchor="middle" font-family="Georgia, serif" font-size="44" fill="#6e1d1d">Sacramento Street, San Francisco</text>
+  <text x="600" y="720" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3418">Urban life, commerce, and surveillance</text>
+</svg>`);
+
+const IMG_CUSTOM_HOUSE = svgDataUri(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#efe7d4"/>
+  <rect y="510" width="1200" height="250" fill="#d6c09b"/>
+  <rect x="190" y="165" width="820" height="360" fill="#d9c7a6" stroke="#7a4b2e" stroke-width="8"/>
+  <rect x="250" y="225" width="700" height="245" fill="#f6eddc" stroke="#7a4b2e" stroke-width="4"/>
+  <g stroke="#7a4b2e" stroke-width="8">
+    <line x1="330" y1="225" x2="330" y2="470"/><line x1="470" y1="225" x2="470" y2="470"/><line x1="610" y1="225" x2="610" y2="470"/><line x1="750" y1="225" x2="750" y2="470"/><line x1="890" y1="225" x2="890" y2="470"/>
+  </g>
+  <g fill="#402015">
+    <circle cx="320" cy="560" r="20"/><circle cx="400" cy="548" r="20"/><circle cx="470" cy="564" r="20"/><circle cx="560" cy="548" r="20"/><circle cx="660" cy="564" r="20"/><circle cx="760" cy="548" r="20"/><circle cx="860" cy="564" r="20"/>
+  </g>
+  <text x="600" y="670" text-anchor="middle" font-family="Georgia, serif" font-size="44" fill="#6e1d1d">San Francisco Custom House</text>
+  <text x="600" y="715" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3418">Inspection, waiting, and bureaucratic control</text>
+</svg>`);
+
+const IMG_CHINATOWN_MAP = svgDataUri(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f5ecd9"/>
+  <rect x="120" y="90" width="960" height="580" fill="#efe4c7" stroke="#8b1a1a" stroke-width="6"/>
+  <g stroke="#8b1a1a" stroke-width="4">
+    <line x1="240" y1="90" x2="240" y2="670"/><line x1="360" y1="90" x2="360" y2="670"/><line x1="480" y1="90" x2="480" y2="670"/><line x1="600" y1="90" x2="600" y2="670"/><line x1="720" y1="90" x2="720" y2="670"/><line x1="840" y1="90" x2="840" y2="670"/><line x1="960" y1="90" x2="960" y2="670"/>
+    <line x1="120" y1="190" x2="1080" y2="190"/><line x1="120" y1="290" x2="1080" y2="290"/><line x1="120" y1="390" x2="1080" y2="390"/><line x1="120" y1="490" x2="1080" y2="490"/><line x1="120" y1="590" x2="1080" y2="590"/>
+  </g>
+  <g fill="#b8892a">
+    <rect x="250" y="210" width="95" height="60"/><rect x="505" y="310" width="90" height="60"/><rect x="760" y="410" width="92" height="62"/><rect x="645" y="515" width="88" height="58"/>
+  </g>
+  <text x="600" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="42" fill="#6e1d1d">Official Map of Chinatown</text>
+  <text x="600" y="705" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3418">Mapping a neighborhood as a space of control</text>
+</svg>`);
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const FontLoader = () => {
@@ -427,8 +495,6 @@ const IcoTemple = ({ onPanel = false }) => (
 // ── Decorative image data placeholders ───────────────────────────────────────
 const IMG_SHIP = IMG_GOLD_MOUNTAIN;
 const IMG_NEWSPAPER = secondImage;
-const IMG_CUSTOM_HOUSE = "https://cdn.loc.gov/service/pnp/cph/3b00000/3b01000/3b01300/3b01313r.jpg";
-const IMG_CHINATOWN_STREET = "https://cdn.loc.gov/service/pnp/cph/3a20000/3a21000/3a21500/3a21524r.jpg";
 
 const VISUAL_ARCHIVE = [
   {
@@ -1773,14 +1839,41 @@ function FaqChatBot({ visitorName }) {
   };
 
   return (
-    <div style={{ position: "fixed", right: "1.25rem", bottom: "1.25rem", zIndex: 360, width: open ? "min(360px, calc(100vw - 2rem))" : "auto" }}>
-      <div style={{ position: "absolute", right: open ? "0.2rem" : "4.2rem", bottom: open ? "100%" : "0.35rem", marginBottom: open ? "0.75rem" : "0", display: "flex", alignItems: "flex-end", gap: "0.55rem", pointerEvents: "none" }}>
-        <div style={{ maxWidth: "150px", padding: "0.5rem 0.7rem", background: "var(--bg)", border: "1px solid var(--gold-foil)", color: "var(--ink)", fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "0.76rem", lineHeight: 1.4, boxShadow: "0 10px 24px rgba(0,0,0,0.15)" }}>
+    <div style={{ position: "fixed", right: "1.25rem", bottom: "1.25rem", zIndex: 360, width: open ? "min(420px, calc(100vw - 2rem))" : "auto" }}>
+      <div style={{ position: "absolute", right: open ? "100%" : "5.6rem", bottom: "0.2rem", marginRight: "0.8rem", display: "flex", alignItems: "flex-start", gap: "0.6rem", pointerEvents: "none" }}>
+        <div style={{ marginTop: "0.35rem", maxWidth: "168px", padding: "0.55rem 0.78rem", background: "var(--bg)", border: "1px solid var(--gold-foil)", color: "var(--ink)", fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "0.78rem", lineHeight: 1.4, boxShadow: "0 10px 24px rgba(0,0,0,0.15)" }}>
           Ask me anything!
         </div>
-        <div style={{ position: "relative", width: "54px", height: "54px", borderRadius: "50%", background: "#8b1a1a", border: "1px solid var(--gold-foil)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 10px 24px rgba(0,0,0,0.18)" }}>
-          <div style={{ position: "absolute", left: "-8px", bottom: "8px", width: "12px", height: "12px", borderLeft: "2px solid var(--gold-foil)", borderBottom: "2px solid var(--gold-foil)", transform: "rotate(45deg)" }} />
-          <div style={{ fontSize: "1.5rem", lineHeight: 1 }}>🐉</div>
+        <div style={{ width: "112px", height: "132px", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+          <svg viewBox="0 0 160 190" width="112" height="132" aria-hidden="true">
+            <ellipse cx="80" cy="181" rx="38" ry="6" fill="rgba(42,26,14,0.18)" />
+            <path d="M53 24 C20 33 8 62 12 92 C15 117 32 138 57 146 L103 146 C129 137 145 117 148 91 C152 60 138 31 106 23 C92 19 67 19 53 24 Z" fill="#f45a61"/>
+            <path d="M46 27 C34 10 47 1 61 9 C73 16 76 34 67 43 Z" fill="#ffe0a1" stroke="#9b5b2b" strokeWidth="2"/>
+            <path d="M113 27 C125 10 112 1 98 9 C86 16 83 34 92 43 Z" fill="#ffe0a1" stroke="#9b5b2b" strokeWidth="2"/>
+            <path d="M33 57 C20 46 14 60 19 72 C23 82 33 86 43 80 Z" fill="#ffe0a1" stroke="#9b5b2b" strokeWidth="2"/>
+            <path d="M127 57 C140 46 146 60 141 72 C137 82 127 86 117 80 Z" fill="#ffe0a1" stroke="#9b5b2b" strokeWidth="2"/>
+            <ellipse cx="80" cy="84" rx="45" ry="35" fill="#ffe6ad"/>
+            <ellipse cx="55" cy="74" rx="7" ry="4" fill="#fff1c8"/>
+            <ellipse cx="105" cy="74" rx="7" ry="4" fill="#fff1c8"/>
+            <circle cx="53" cy="87" r="12" fill="#3a170f"/><circle cx="107" cy="87" r="12" fill="#3a170f"/>
+            <circle cx="50" cy="83" r="4" fill="#fff"/><circle cx="104" cy="83" r="4" fill="#fff"/>
+            <path d="M62 103 C73 94 87 94 98 103 C98 126 89 141 80 141 C71 141 62 126 62 103 Z" fill="#3a170f"/>
+            <path d="M74 118 C78 124 82 124 86 118 C90 127 88 135 80 138 C72 135 70 127 74 118 Z" fill="#e63b2e"/>
+            <path d="M68 104 L74 111 L67 116 Z" fill="#fff8ea"/>
+            <path d="M92 104 L86 111 L93 116 Z" fill="#fff8ea"/>
+            <path d="M64 84 C69 80 74 80 78 84" stroke="#9b5b2b" strokeWidth="2.2" strokeLinecap="round"/>
+            <path d="M82 84 C86 80 91 80 96 84" stroke="#9b5b2b" strokeWidth="2.2" strokeLinecap="round"/>
+            <path d="M53 145 C44 154 42 168 46 179" stroke="#9b2f36" strokeWidth="8" strokeLinecap="round"/>
+            <path d="M107 145 C116 154 118 168 114 179" stroke="#9b2f36" strokeWidth="8" strokeLinecap="round"/>
+            <path d="M66 144 L60 182" stroke="#f45a61" strokeWidth="14" strokeLinecap="round"/>
+            <path d="M94 144 L100 182" stroke="#f45a61" strokeWidth="14" strokeLinecap="round"/>
+            <ellipse cx="80" cy="150" rx="24" ry="28" fill="#ffe6ad"/>
+            <path d="M122 147 C139 154 145 170 135 183" stroke="#9b2f36" strokeWidth="8" strokeLinecap="round"/>
+            <path d="M131 180 L141 172 L144 183 L136 188 Z" fill="#ffe0a1" stroke="#9b5b2b" strokeWidth="2"/>
+            <path d="M67 145 C72 140 88 140 93 145" stroke="#edca86" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M65 156 C71 151 89 151 95 156" stroke="#edca86" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M64 167 C71 162 89 162 96 167" stroke="#edca86" strokeWidth="3" strokeLinecap="round"/>
+          </svg>
         </div>
       </div>
       {open && (
