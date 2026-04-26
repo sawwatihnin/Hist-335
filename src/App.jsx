@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import firstImage from "./assets/first-image.png";
 import secondImage from "./assets/second-image.png";
 
+const YOUTUBE_VIDEO_ID = "GwyXQO0tSW4";
+const YOUTUBE_EMBED_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&disablekb=1&modestbranding=1&rel=0`;
+
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const FontLoader = () => {
   useEffect(() => {
@@ -1141,6 +1144,45 @@ function ScholarlyPanel({ onPanel = false }) {
   );
 }
 
+function TakeawayPanel() {
+  const takeaways = [
+    {
+      title: "Big Idea",
+      body: "The Gold Rush was not only a story of opportunity. It also relied on racial hierarchy, gender imbalance, and coercive labor systems.",
+    },
+    {
+      title: "What Visitors Should Notice",
+      body: "Chinese women were made especially vulnerable because migration routes, debt contracts, and legal exclusion worked together.",
+    },
+    {
+      title: "Why It Matters",
+      body: "Primary sources show both exploitation and resistance, helping us see the human cost hidden inside familiar stories of western expansion.",
+    },
+  ];
+
+  return (
+    <Reveal delay={0.14} style={{ position: "relative", zIndex: 1 }}>
+      <div style={{ border: "1px solid var(--rule)", padding: "1.25rem", marginTop: "2rem", background: "var(--bg2)" }}>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.75rem" }}>
+          Key Takeaways
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: "0.9rem" }}>
+          {takeaways.map((item) => (
+            <div key={item.title} style={{ border: "1px solid var(--card-border)", padding: "0.95rem", background: "var(--bg)" }}>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--red)", marginBottom: "0.45rem" }}>
+                {item.title}
+              </p>
+              <p style={{ fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "0.86rem", lineHeight: 1.68, color: "var(--ink-light)" }}>
+                {item.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 function InlineVisualCard({ item, delay = 0, onOpen }) {
   return (
     <Reveal delay={delay}>
@@ -1484,7 +1526,7 @@ function LanternOverlay({ visible, onDismiss, musicEnabled }) {
           Entering the Exhibit
         </h2>
         <p style={{ fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "1rem", lineHeight: 1.8, color: "rgba(255,255,255,0.9)", marginBottom: "1rem" }}>
-          A lantern prelude appears once on first load, then fades. A historical Chinese recording is {musicEnabled ? "enabled" : "available"} and accessibility controls remain at the upper right.
+          A lantern prelude appears once on first load, then fades. A YouTube soundtrack is {musicEnabled ? "enabled" : "available"} and accessibility controls remain at the upper right.
         </p>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold-foil)" }}>
           Click anywhere to continue
@@ -1884,9 +1926,8 @@ export default function App() {
   const [activeVisual, setActiveVisual] = useState(null);
   const [showLanternOverlay, setShowLanternOverlay] = useState(false);
   const [musicEnabled, setMusicEnabled] = useState(true);
-  const [musicStatus, setMusicStatus] = useState("idle");
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const audioRef = useRef(null);
+  const [musicKey, setMusicKey] = useState(0);
   const speechRef = useRef(null);
 
   useEffect(() => {
@@ -1908,61 +1949,14 @@ export default function App() {
 
   useEffect(() => {
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-      }
       if (window.speechSynthesis) window.speechSynthesis.cancel();
     };
   }, []);
 
   useEffect(() => {
-    if (!musicEnabled) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      setMusicStatus("paused");
-      return;
+    if (musicEnabled) {
+      setMusicKey((current) => current + 1);
     }
-
-    let cancelled = false;
-    const TRACK_URL = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Yu%20Wang%20Tan%20Ming%20%28c.%201920%29.ogg";
-
-    const ensureMusic = async () => {
-      if (!audioRef.current) {
-        const audio = new Audio(TRACK_URL);
-        audio.loop = true;
-        audio.volume = 0.23;
-        audio.preload = "auto";
-        audioRef.current = audio;
-      }
-
-      const audio = audioRef.current;
-      try {
-        if (!cancelled) {
-          audio.currentTime = audio.currentTime || 0;
-          await audio.play();
-          setMusicStatus("playing");
-        }
-      } catch {
-        setMusicStatus("blocked");
-      }
-    };
-
-    ensureMusic();
-
-    const activateOnGesture = () => {
-      ensureMusic();
-    };
-
-    window.addEventListener("pointerdown", activateOnGesture, { passive: true });
-    window.addEventListener("keydown", activateOnGesture);
-
-    return () => {
-      cancelled = true;
-      window.removeEventListener("pointerdown", activateOnGesture);
-      window.removeEventListener("keydown", activateOnGesture);
-    };
   }, [musicEnabled]);
 
   const cycleTheme = () => {
@@ -2009,6 +2003,15 @@ export default function App() {
 
   return (
     <div style={{ background: "var(--bg)", minHeight: "100vh", overflowX: "hidden", transition: "background 0.4s ease" }}>
+      {musicEnabled && (
+        <iframe
+          key={musicKey}
+          title="Ambient soundtrack"
+          src={YOUTUBE_EMBED_URL}
+          allow="autoplay; encrypted-media"
+          style={{ position: "fixed", width: 0, height: 0, border: 0, opacity: 0, pointerEvents: "none" }}
+        />
+      )}
       <FontLoader />
       <GlobalStyles theme={theme} />
       <ProgressBar />
@@ -2022,28 +2025,6 @@ export default function App() {
         onMusicToggle={toggleMusic}
       />
       <LanternOverlay visible={showLanternOverlay} onDismiss={dismissLanternOverlay} musicEnabled={musicEnabled} />
-      {musicStatus === "blocked" && (
-        <div
-          style={{
-            position: "fixed",
-            left: "1.5rem",
-            bottom: "1.5rem",
-            zIndex: 310,
-            maxWidth: "320px",
-            padding: "0.75rem 0.9rem",
-            background: "var(--bg)",
-            border: "1px solid var(--gold-foil)",
-            boxShadow: "0 10px 28px rgba(0,0,0,0.15)",
-          }}
-        >
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.66rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.35rem" }}>
-            Music Ready
-          </p>
-          <p style={{ fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "0.82rem", lineHeight: 1.65, color: "var(--ink-light)" }}>
-            Your browser blocked autoplay with sound. Use the music button at the upper right or click anywhere to start the ambient track.
-          </p>
-        </div>
-      )}
 
       <main>
       <section
@@ -2169,6 +2150,7 @@ export default function App() {
           </div>
         </Reveal>
         <ScholarlyPanel />
+        <TakeawayPanel />
         <GoldRule wide />
         <Reveal delay={0.15} style={{ position: "relative", zIndex: 1 }}>
           <div style={{ border: "1px solid var(--rule)", padding: "2.5rem 2rem", position: "relative", textAlign: "center" }}>
@@ -2457,6 +2439,15 @@ export default function App() {
             </p>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
               Hirata, Lucie Cheng. "Free, Indentured, Enslaved: Chinese Prostitutes in Nineteenth-Century America." <em>Signs</em> 5, no. 1 (1979): 3–29.
+            </p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+              Tong, Benson. <em>Unsubmissive Women: Chinese Prostitutes in Nineteenth-Century San Francisco, 1850-1920</em>. Norman: University of Oklahoma Press, 1994.
+            </p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+              Yung, Judy. <em>Unbound Feet: A Social History of Chinese Women in San Francisco</em>. Berkeley: University of California Press, 1995.
+            </p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+              Shah, Nayan. <em>Contagious Divides: Epidemics and Race in San Francisco's Chinatown</em>. Berkeley: University of California Press, 2001.
             </p>
           </div>
         </div>
