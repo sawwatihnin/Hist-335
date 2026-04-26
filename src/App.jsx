@@ -2151,13 +2151,13 @@ export default function App() {
         </Reveal>
         <Reveal delay={0.1} style={{ position: "relative", zIndex: 1 }}>
           <Body>
-            Chinese women in Gold Rush California occupied one of the most precarious positions in the nineteenth-century Pacific world. They entered an expanding frontier economy at the precise intersection of labor scarcity, racial exclusion, and gendered demand. Historians have shown that their exploitation was not a peripheral vice attached to the Gold Rush; it was woven into the broader political economy of western development itself, where mining camps, port cities, merchants, and municipal authorities all benefited from the circulation of vulnerable bodies through systems of debt, coercion, and sale.
+            Chinese women in Gold Rush California occupied one of the most precarious positions in the nineteenth-century Pacific world. They entered an expanding frontier economy shaped by labor scarcity, racial exclusion, and gendered demand. Their exploitation was not a side effect of the Gold Rush. It was built into the political economy of western development, where mining camps, port cities, and local authorities all benefited from systems of debt, coercion, and sale.
           </Body>
           <Body>
-            To study these women is therefore to revise the mythology of the Gold Rush. The familiar narrative celebrates mobility, risk, and self-making; the record examined here instead reveals an economy structured by asymmetry. Chinese migrant men were recruited as workers and then taxed, segregated, and criminalized. Chinese women were even more tightly constrained: represented in census returns as anomalies, in newspapers as spectacle, in municipal reports as sanitary threats, and in court records only when they managed to break through the legal barriers designed to keep them silent. Their lives expose how early American capitalism depended not simply on free labor, but on graded regimes of unfreedom.
+            Studying these women revises the familiar mythology of the Gold Rush. Instead of a story defined only by opportunity and self-making, the record reveals an economy built on unequal freedom. Chinese migrant men were recruited as workers and then taxed, segregated, and criminalized. Chinese women were even more tightly constrained, appearing in the archive mainly as anomalies, spectacles, threats, or plaintiffs struggling to be heard.
           </Body>
           <Body>
-            The archive is correspondingly fractured. Many women appear only as tallies, aliases, rescue cases, or objects of litigation. That absence is not an accidental gap: it is itself historical evidence of how racialized and gendered power operated. This exhibit reads against those silences. Rather than treating the absence of full biographies as a reason for analytical caution alone, it treats the thinness of the record as proof of a system that recorded Chinese women primarily when they could be counted, inspected, sold, or disciplined. The task, then, is not to romanticize recovery, but to reconstruct structure with as much rigor as possible while remaining attentive to the fragmentary traces of individual agency.
+            The archive is correspondingly fractured. Many women appear only as tallies, aliases, rescue cases, or objects of litigation. That thin record is part of the history itself. It reflects a system that recorded Chinese women mainly when they could be counted, inspected, sold, or disciplined, and this exhibit reads those silences as evidence rather than empty space.
           </Body>
           <CitationPills ids={["hirata", "tong", "yung", "shah", "census1850", "census1860"]} />
         </Reveal>
@@ -2192,10 +2192,10 @@ export default function App() {
             <Label onPanel>Section I</Label>
             <STitle onPanel>Migration and Gender Imbalance</STitle>
             <Body onPanel>
-              The California Gold Rush of 1849 generated one of the most dramatic migration surges in modern U.S. history, yet its Chinese dimension was profoundly gendered from the outset. Census data and shipping records make clear that Chinese immigration was overwhelmingly male, driven by demand for extractive labor, transport work, and service occupations. This imbalance created not merely a demographic curiosity but an entire social field in which women became scarce, highly profitable, and therefore especially vulnerable to coercive forms of migration. The fact that so few Chinese women appear in the record is itself historical evidence: the migration stream was structured to privilege male labor while channeling women through narrower, more tightly controlled routes.
+              The California Gold Rush produced a dramatic migration surge, but its Chinese dimension was profoundly gendered from the outset. Census data and shipping records show that Chinese immigration was overwhelmingly male, driven by demand for mining, transport, and service labor. In that environment, women became scarce, highly profitable, and especially vulnerable to coercive migration.
             </Body>
             <Body onPanel>
-              This asymmetry was not incidental. Economic devastation in Guangdong, clan indebtedness, warfare in the Pearl River Delta, and the brokerage systems that linked village economies to Pacific shipping all converged with California’s masculine labor frontier. Women did not simply "follow" migration; they were moved within it under different terms. Brokers, kin intermediaries, and trafficking organizations translated demographic scarcity into market opportunity, so that sexual labor became one of the most lucrative sectors available to those who controlled women’s passage. What emerged was a migration regime in which port entry, debt, employment, and bodily control were mutually reinforcing.
+              This asymmetry was structural, not accidental. Economic hardship in Guangdong and brokerage networks across the Pacific moved women under very different terms than men. Rather than freely joining migration, many were funneled into routes where passage, debt, employment, and bodily control reinforced one another.
             </Body>
             <CitationPills ids={["census1850", "census1860", "hirata", "tong"]} onPanel />
           </Reveal>
@@ -2317,10 +2317,10 @@ export default function App() {
           <Label>Section IV</Label>
           <STitle>Resistance and Survival</STitle>
           <Body>
-            To portray Chinese women during the Gold Rush exclusively as victims is to reproduce the archive’s own flattening effects. Yet recovering agency requires precision. Resistance did not always take dramatic form; often it consisted of calculated movement within impossible constraints: withholding labor, seeking allies, testifying through interpreters of uncertain loyalty, escaping to mission homes, or using habeas corpus petitions to convert moral injury into legal argument. Such acts should not be romanticized, but neither should they be minimized. They reveal that coercive systems were never total, even when they were brutally effective.
+            To portray Chinese women during the Gold Rush only as victims is to repeat the archive’s own flattening effects. Resistance often took quieter forms: seeking allies, escaping to mission homes, testifying through interpreters, or using habeas corpus petitions to challenge confinement. These acts should not be romanticized, but they do show that coercive systems were never total.
           </Body>
           <Body>
-            Mission records are especially revealing here, though they must be read critically. They were produced by reformers with their own agendas, often casting rescue in paternalist terms. Even so, they preserve traces of women’s strategies that would otherwise vanish: choosing when to flee, whom to trust, when to litigate, and how to narrate compulsion in ways legible to courts and benefactors. The surviving evidence suggests not passive rescue but contested negotiation, in which Chinese women themselves repeatedly forced openings in systems designed to contain them.
+            Mission records are especially revealing, though they must be read critically. Produced by reformers with their own agendas, they still preserve traces of women’s choices about when to flee, whom to trust, and when to litigate. The surviving evidence suggests not passive rescue, but repeated efforts by Chinese women to force openings in systems designed to contain them.
           </Body>
           <CitationPills ids={["mission", "yung", "tong"]} />
         </Reveal>
@@ -2372,10 +2372,10 @@ export default function App() {
           <Label>Primary Sources</Label>
           <STitle>The Documentary Record</STitle>
           <Body>
-            The history documented in this exhibit rests on a layered documentary record: federal census schedules, court opinions, missionary reports, urban surveys, maps, engravings, and journalism. None is transparent. Census data enumerate but do not explain; legal opinions reveal structure but flatten lived experience; rescue literature preserves voices while filtering them through reformist frameworks; newspapers publicize trafficking while often sensationalizing the women they describe. Historical interpretation therefore requires triangulation rather than simple extraction.
+            This exhibit draws on a layered documentary record: census schedules, court opinions, missionary reports, maps, engravings, and journalism. None of these sources is neutral. Census data count but do not explain, legal opinions reveal structure while flattening lived experience, and newspapers often sensationalize the women they describe.
           </Body>
           <Body>
-            This exhibit uses primary sources not only to illustrate an argument but to show how different genres of evidence produce different kinds of knowledge. Court records illuminate legal disability, municipal reports show official priorities, maps make spatial concentration visible, and photographs or engravings reveal how Chinese migrants were framed for viewers. Read together, they make possible a history that is both empirical and critical: one attentive to evidence, yet equally attentive to who produced it, for what audience, and under what conditions of racial power.
+            Read together, these sources show different parts of the same system. Court records illuminate legal exclusion, municipal reports show official priorities, and visual materials reveal how Chinese migrants were framed for viewers. Using them together makes it possible to tell a history grounded in evidence while staying alert to who produced that evidence and why.
           </Body>
           <CitationPills ids={["census1850", "census1860", "hall", "mission", "customhouse", "sacramento", "chinatownmap"]} />
         </Reveal>
