@@ -4,9 +4,7 @@ import secondImage from "./assets/second-image.png";
 
 const YOUTUBE_VIDEO_ID = "GwyXQO0tSW4";
 const YOUTUBE_EMBED_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&disablekb=1&modestbranding=1&rel=0`;
-const IMG_BARRACKS = "https://cdn.loc.gov/service/pnp/ppmsc/06100/06165r.jpg";
 const IMG_CHINATOWN_MAP = "https://cdn.loc.gov/service/gmd/gmd382m/g3824s/pm005550.jpg";
-const IMG_WOMAN_PORTRAIT = "https://cdn.loc.gov/service/pnp/cph/3c30000/3c37000/3c37700/3c37715r.jpg";
 const IMG_GOLD_MOUNTAIN = "https://upload.wikimedia.org/wikipedia/commons/8/82/The_Golden_Mountain%2C_Arriving_San_Francisco_by_Mian_Situ.jpg";
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
@@ -466,20 +464,20 @@ const VISUAL_ARCHIVE = [
     note: "This map turns Chinatown into a surveyed and labeled landscape, revealing how racial governance worked through mapping, classification, and block-by-block scrutiny.",
   },
   {
-    src: IMG_BARRACKS,
-    title: "Chinese Quarter, San Francisco Barracks",
-    year: "Late 19th c.",
-    type: "Photograph",
-    credit: "Library of Congress Prints & Photographs Division.",
-    note: "The image emphasizes density, containment, and the built environment in which surveillance and vulnerability became part of everyday life.",
+    src: IMG_SHIP,
+    title: "The Golden Mountain, Arriving San Francisco",
+    year: "1865",
+    type: "Historical painting",
+    credit: "Mian Situ. Courtesy of Mian Situ.",
+    note: "This visual reconstruction emphasizes migration as a family and community experience, not only a masculine labor rush, helping viewers see who was imagined into the journey and who was left vulnerable within it.",
   },
   {
-    src: IMG_WOMAN_PORTRAIT,
-    title: "Chinese Woman, Studio Portrait",
-    year: "19th century",
+    src: firstImage,
+    title: "Community Portrait",
+    year: "Late 19th c.",
     type: "Portrait",
-    credit: "Library of Congress Prints & Photographs Division.",
-    note: "A studio portrait counters the tendency to depict Chinese women only through vice reporting, restoring individuality and presence to the visual record.",
+    credit: "Uploaded exhibit image used as contextual visual evidence.",
+    note: "This portrait-like image adds a human counterweight to maps, court cases, and surveillance records, keeping personhood in view alongside systems of control.",
   },
 ];
 
@@ -520,14 +518,6 @@ const CITATION_LIBRARY = {
     short: "LOC Custom House, 1877",
     full: "P. Frenzeny, Chinese Immigrants at the San Francisco Custom House, 1877, Library of Congress.",
     href: "https://lccn.loc.gov/2005696248",
-  },
-  barracks: {
-    short: "LOC Barracks Photo",
-    full: "Chinese quarter, San Francisco barracks, Library of Congress Prints & Photographs Division.",
-  },
-  portrait: {
-    short: "LOC Studio Portrait",
-    full: "Chinese woman, studio portrait, nineteenth century, Library of Congress Prints & Photographs Division.",
   },
   sacramento: {
     short: "LOC Sacramento St., 1866",
@@ -1575,7 +1565,7 @@ function LanternOverlay({ visible, onDismiss, musicEnabled }) {
         position: "fixed",
         inset: 0,
         zIndex: 450,
-        background: "radial-gradient(circle at center, rgba(25,15,10,0.78) 0%, rgba(10,6,4,0.94) 70%)",
+        background: "rgba(10,6,4,0.94)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -1594,7 +1584,7 @@ function LanternOverlay({ visible, onDismiss, musicEnabled }) {
                 width: "92px",
                 height: "132px",
                 borderRadius: "20px 20px 28px 28px",
-                background: "linear-gradient(180deg,#d93333 0%, #8b1a1a 65%, #631111 100%)",
+                background: "#8b1a1a",
                 border: "2px solid rgba(255,241,122,0.72)",
                 position: "relative",
                 animation: `lanternFloat ${3.6 + index * 0.35}s ease-in-out infinite`,
@@ -1605,7 +1595,7 @@ function LanternOverlay({ visible, onDismiss, musicEnabled }) {
               <div style={{ position: "absolute", top: "8px", bottom: "8px", left: "50%", width: "1px", background: "rgba(255,241,122,0.36)", transform: "translateX(-50%)" }} />
               <div style={{ position: "absolute", left: "18px", right: "18px", top: "18px", height: "1px", background: "rgba(255,241,122,0.32)" }} />
               <div style={{ position: "absolute", left: "18px", right: "18px", bottom: "18px", height: "1px", background: "rgba(255,241,122,0.32)" }} />
-              <div style={{ position: "absolute", inset: "22px", borderRadius: "18px", background: "radial-gradient(circle at center, rgba(255,241,122,0.3), transparent 70%)", animation: "lanternGlow 2.8s ease-in-out infinite" }} />
+              <div style={{ position: "absolute", inset: "22px", borderRadius: "18px", background: "rgba(255,241,122,0.18)", animation: "lanternGlow 2.8s ease-in-out infinite" }} />
             </div>
           ))}
         </div>
@@ -1632,7 +1622,7 @@ function TraditionalDoorIntro({ visible, visitorName, onNameChange, onEnter, ope
         position: "fixed",
         inset: 0,
         zIndex: 520,
-        background: "radial-gradient(circle at center, rgba(45,16,10,0.92) 0%, rgba(15,6,4,0.98) 78%)",
+        background: "rgba(15,6,4,0.98)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -1656,8 +1646,7 @@ function TraditionalDoorIntro({ visible, visitorName, onNameChange, onEnter, ope
             transformOrigin: panel.origin,
             transform: panel.transform,
             transition: "transform 1.5s ease",
-            background:
-              "linear-gradient(180deg, rgba(121,18,18,0.98) 0%, rgba(95,14,14,0.99) 45%, rgba(63,10,10,0.99) 100%)",
+            background: "rgba(111,18,18,0.99)",
             borderLeft: index === 1 ? "2px solid rgba(255,241,122,0.2)" : "none",
             borderRight: index === 0 ? "2px solid rgba(255,241,122,0.2)" : "none",
             boxShadow: index === 0 ? "inset -18px 0 30px rgba(0,0,0,0.28)" : "inset 18px 0 30px rgba(0,0,0,0.28)",
@@ -1721,7 +1710,7 @@ function TraditionalDoorIntro({ visible, visitorName, onNameChange, onEnter, ope
             style={{
               width: "100%",
               padding: "0.9rem 1rem",
-              background: "linear-gradient(90deg,#8b1a1a,#b8892a)",
+              background: "#8b1a1a",
               color: "#fff7d1",
               border: "1px solid rgba(255,241,122,0.55)",
               fontFamily: "'DM Sans',sans-serif",
@@ -1785,9 +1774,18 @@ function FaqChatBot({ visitorName }) {
 
   return (
     <div style={{ position: "fixed", right: "1.25rem", bottom: "1.25rem", zIndex: 360, width: open ? "min(360px, calc(100vw - 2rem))" : "auto" }}>
+      <div style={{ position: "absolute", right: open ? "0.2rem" : "4.2rem", bottom: open ? "100%" : "0.35rem", marginBottom: open ? "0.75rem" : "0", display: "flex", alignItems: "flex-end", gap: "0.55rem", pointerEvents: "none" }}>
+        <div style={{ maxWidth: "150px", padding: "0.5rem 0.7rem", background: "var(--bg)", border: "1px solid var(--gold-foil)", color: "var(--ink)", fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif", fontSize: "0.76rem", lineHeight: 1.4, boxShadow: "0 10px 24px rgba(0,0,0,0.15)" }}>
+          Ask me anything!
+        </div>
+        <div style={{ position: "relative", width: "54px", height: "54px", borderRadius: "50%", background: "#8b1a1a", border: "1px solid var(--gold-foil)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 10px 24px rgba(0,0,0,0.18)" }}>
+          <div style={{ position: "absolute", left: "-8px", bottom: "8px", width: "12px", height: "12px", borderLeft: "2px solid var(--gold-foil)", borderBottom: "2px solid var(--gold-foil)", transform: "rotate(45deg)" }} />
+          <div style={{ fontSize: "1.5rem", lineHeight: 1 }}>🐉</div>
+        </div>
+      </div>
       {open && (
         <div style={{ marginBottom: "0.75rem", background: "var(--bg)", border: "1px solid var(--gold-foil)", boxShadow: "0 18px 36px rgba(0,0,0,0.22)" }}>
-          <div style={{ padding: "0.9rem 1rem", borderBottom: "1px solid var(--rule)", background: "linear-gradient(90deg,var(--panel),var(--panel2))" }}>
+          <div style={{ padding: "0.9rem 1rem", borderBottom: "1px solid var(--rule)", background: "var(--panel)" }}>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-foil)", marginBottom: "0.3rem" }}>
               Exhibit Guide
             </p>
@@ -1859,7 +1857,7 @@ function FaqChatBot({ visitorName }) {
               type="submit"
               style={{
                 padding: "0.72rem 0.85rem",
-                background: "linear-gradient(90deg,var(--red),var(--gold-foil))",
+                background: "var(--red)",
                 color: "#fff7d1",
                 border: "none",
                 cursor: "pointer",
@@ -2321,6 +2319,10 @@ export default function App() {
   useEffect(() => {
     if (musicEnabled) {
       setMusicKey((current) => current + 1);
+      const retry = window.setTimeout(() => {
+        setMusicKey((current) => current + 1);
+      }, 700);
+      return () => window.clearTimeout(retry);
     }
   }, [musicEnabled]);
 
@@ -2383,9 +2385,10 @@ export default function App() {
         <iframe
           key={musicKey}
           title="Ambient soundtrack"
-          src={YOUTUBE_EMBED_URL}
+          src={`${YOUTUBE_EMBED_URL}&playsinline=1`}
           allow="autoplay; encrypted-media"
-          style={{ position: "fixed", width: 0, height: 0, border: 0, opacity: 0, pointerEvents: "none" }}
+          loading="eager"
+          style={{ position: "fixed", left: "-9999px", top: "-9999px", width: 1, height: 1, border: 0, opacity: 0.01, pointerEvents: "none" }}
         />
       )}
       <FontLoader />
@@ -2536,7 +2539,7 @@ export default function App() {
           </div>
         </Reveal>
         <Reveal delay={0.15} style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ marginTop: "2rem", padding: "1.35rem 1.5rem", border: "1px solid var(--rule)", background: "linear-gradient(135deg, rgba(201,160,80,0.08), rgba(139,26,26,0.04))" }}>
+          <div style={{ marginTop: "2rem", padding: "1.35rem 1.5rem", border: "1px solid var(--rule)", background: "var(--bg2)" }}>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.45rem" }}>
               Personalized Welcome
             </p>
@@ -2715,7 +2718,7 @@ export default function App() {
           <Body>
             The surviving visual record is fragmentary, but it helps situate Chinese women within broader worlds of migration, family, inspection, and urban life. Click any image to open it full size.
           </Body>
-          <CitationPills ids={["customhouse", "sacramento", "chinatownmap", "barracks", "portrait"]} />
+          <CitationPills ids={["customhouse", "sacramento", "chinatownmap", "census1860", "yung"]} />
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "1.35rem", position: "relative", zIndex: 1 }}>
           {VISUAL_ARCHIVE.map((item, i) => (
@@ -2764,8 +2767,8 @@ export default function App() {
           <SourceCard title="Chinese Immigrants at the San Francisco Custom House" year="1877" desc="A wood engraving of Chinese immigrants at a San Francisco inspection site, showing arrival as bureaucratic sorting and surveillance." delay={0.35} />
           <SourceCard title='Official Map of "Chinatown" in San Francisco' year="1885" desc='This map documents businesses, occupancies, gambling houses, and racialized labeling of Chinatown block by block.' delay={0.42} />
           <SourceCard title="San Francisco, Calif. — China Town, Sacramento St." year="1866" desc="An albumen street view that places migration and commerce inside a lived urban environment rather than a purely sensational one." delay={0.49} />
-          <SourceCard title="Chinese Quarter, San Francisco Barracks" year="Late 19th c." desc="A photograph of dense urban quarters that helps visualize confinement, surveillance, and the built environment of exclusion." delay={0.56} />
-          <SourceCard title="Studio Portrait of a Chinese Woman" year="19th c." desc="A formal portrait that restores individuality and presence to a record that often reduced women to statistics or stereotypes." delay={0.63} />
+          <SourceCard title="The Golden Mountain, Arriving San Francisco" year="1865" desc="A widely used historical painting that helps visitors visualize migration, family presence, and the expectations attached to arrival." delay={0.56} />
+          <SourceCard title="Community Portrait" year="Late 19th c." desc="A contextual portrait image that restores personhood and presence alongside the exhibit’s legal and demographic sources." delay={0.63} />
         </div>
         <ExhibitImage
           src={IMG_CUSTOM_HOUSE}
