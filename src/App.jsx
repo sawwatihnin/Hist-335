@@ -4,6 +4,10 @@ import secondImage from "./assets/second-image.png";
 
 const YOUTUBE_VIDEO_ID = "GwyXQO0tSW4";
 const YOUTUBE_EMBED_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&disablekb=1&modestbranding=1&rel=0`;
+const IMG_BARRACKS = "https://cdn.loc.gov/service/pnp/ppmsc/06100/06165r.jpg";
+const IMG_CHINATOWN_MAP = "https://cdn.loc.gov/service/gmd/gmd382m/g3824s/pm005550.jpg";
+const IMG_WOMAN_PORTRAIT = "https://cdn.loc.gov/service/pnp/cph/3c30000/3c37000/3c37700/3c37715r.jpg";
+const IMG_GOLD_MOUNTAIN = "https://upload.wikimedia.org/wikipedia/commons/8/82/The_Golden_Mountain%2C_Arriving_San_Francisco_by_Mian_Situ.jpg";
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
 const FontLoader = () => {
@@ -423,7 +427,7 @@ const IcoTemple = ({ onPanel = false }) => (
 );
 
 // ── Decorative image data placeholders ───────────────────────────────────────
-const IMG_SHIP = firstImage;
+const IMG_SHIP = IMG_GOLD_MOUNTAIN;
 const IMG_NEWSPAPER = secondImage;
 const IMG_CUSTOM_HOUSE = "https://cdn.loc.gov/service/pnp/cph/3b00000/3b01000/3b01300/3b01313r.jpg";
 const IMG_CHINATOWN_STREET = "https://cdn.loc.gov/service/pnp/cph/3a20000/3a21000/3a21500/3a21524r.jpg";
@@ -452,6 +456,30 @@ const VISUAL_ARCHIVE = [
     type: "Albumen photograph",
     credit: "Lawrence & Houseworth, Library of Congress Prints & Photographs Division.",
     note: "The street scene situates trafficking inside a larger urban world of businesses, residences, pedestrians, and everyday life rather than isolating it as an underground anomaly.",
+  },
+  {
+    src: IMG_CHINATOWN_MAP,
+    title: 'Official Map of "Chinatown" in San Francisco',
+    year: "1885",
+    type: "Urban map",
+    credit: "Library of Congress Geography and Map Division.",
+    note: "This map turns Chinatown into a surveyed and labeled landscape, revealing how racial governance worked through mapping, classification, and block-by-block scrutiny.",
+  },
+  {
+    src: IMG_BARRACKS,
+    title: "Chinese Quarter, San Francisco Barracks",
+    year: "Late 19th c.",
+    type: "Photograph",
+    credit: "Library of Congress Prints & Photographs Division.",
+    note: "The image emphasizes density, containment, and the built environment in which surveillance and vulnerability became part of everyday life.",
+  },
+  {
+    src: IMG_WOMAN_PORTRAIT,
+    title: "Chinese Woman, Studio Portrait",
+    year: "19th century",
+    type: "Portrait",
+    credit: "Library of Congress Prints & Photographs Division.",
+    note: "A studio portrait counters the tendency to depict Chinese women only through vice reporting, restoring individuality and presence to the visual record.",
   },
 ];
 
@@ -493,6 +521,14 @@ const CITATION_LIBRARY = {
     full: "P. Frenzeny, Chinese Immigrants at the San Francisco Custom House, 1877, Library of Congress.",
     href: "https://lccn.loc.gov/2005696248",
   },
+  barracks: {
+    short: "LOC Barracks Photo",
+    full: "Chinese quarter, San Francisco barracks, Library of Congress Prints & Photographs Division.",
+  },
+  portrait: {
+    short: "LOC Studio Portrait",
+    full: "Chinese woman, studio portrait, nineteenth century, Library of Congress Prints & Photographs Division.",
+  },
   sacramento: {
     short: "LOC Sacramento St., 1866",
     full: "Lawrence & Houseworth, San Francisco, Calif. — China Town, Sacramento St., published 1866, Library of Congress.",
@@ -502,6 +538,18 @@ const CITATION_LIBRARY = {
     short: "LOC Chinatown Map, 1885",
     full: 'Farwell et al., Official map of "Chinatown" in San Francisco, 1885, Library of Congress.',
     href: "https://www.loc.gov/item/2012593519/",
+  },
+  lee: {
+    short: "Lee, 2003",
+    full: "Erika Lee, At America's Gates: Chinese Immigration during the Exclusion Era, 1882-1943 (Chapel Hill: University of North Carolina Press, 2003).",
+  },
+  gyory: {
+    short: "Gyory, 1998",
+    full: "Andrew Gyory, Closing the Gate: Race, Politics, and the Chinese Exclusion Act (Chapel Hill: University of North Carolina Press, 1998).",
+  },
+  takaki: {
+    short: "Takaki, 1998",
+    full: "Ronald Takaki, Strangers from a Different Shore: A History of Asian Americans (Boston: Little, Brown, 1998).",
   },
 };
 
@@ -540,6 +588,45 @@ const EARLY_VISUALS = [
     title: "Custom House Inspection",
     year: "1877",
     note: "Arrival, surveillance, and bureaucratic sorting formed part of the coercive system from the port onward.",
+  },
+  {
+    src: IMG_CHINATOWN_MAP,
+    title: "Mapped Chinatown",
+    year: "1885",
+    note: "A city map shows how Chinatown was documented, labeled, and controlled as a distinct racialized space.",
+  },
+];
+
+const FAQ_BANK = [
+  {
+    q: "What is the main argument of this exhibit?",
+    keywords: ["main argument", "thesis", "big idea", "argument"],
+    a: "The exhibit argues that the Gold Rush was not only a story of opportunity. For many Chinese women, it was also a system of coercion shaped by racial exclusion, gender imbalance, and labor demand.",
+  },
+  {
+    q: "What are the most important primary sources here?",
+    keywords: ["primary", "sources", "documents", "evidence"],
+    a: "The exhibit leans most heavily on census data from 1850 and 1860, People v. Hall, Presbyterian Mission Home records, Library of Congress images, and San Francisco maps and street views that document surveillance, migration, and urban control.",
+  },
+  {
+    q: "How does the exhibit show analysis, not just description?",
+    keywords: ["analysis", "interpretation", "why", "meaning"],
+    a: "Each section connects evidence to a larger historical argument. The image analyses, citation pills, scholarly interpretation tabs, and key takeaways all explain how law, race, labor, and gender worked together rather than simply listing facts.",
+  },
+  {
+    q: "Why are there so few named women in the exhibit?",
+    keywords: ["names", "named", "anonymous", "archive"],
+    a: "That absence is part of the history. Chinese women were often recorded only when they could be counted, inspected, sold, rescued, or disciplined, so the fractured archive itself reveals how power operated.",
+  },
+  {
+    q: "How should I explain resistance in this exhibit?",
+    keywords: ["resistance", "survival", "agency", "escape"],
+    a: "The exhibit treats resistance as both dramatic and everyday: escape, testimony, legal petitions, mission-home refuge, and community help all show that coercion was powerful but never total.",
+  },
+  {
+    q: "What secondary sources support the exhibit most strongly?",
+    keywords: ["secondary", "scholarly", "books", "articles"],
+    a: "The core secondary works are Lucie Cheng Hirata, Benson Tong, Judy Yung, Nayan Shah, Erika Lee, Andrew Gyory, and Ronald Takaki. Together they support the exhibit’s interpretation of labor, law, exclusion, and racial formation.",
   },
 ];
 
@@ -1536,6 +1623,281 @@ function LanternOverlay({ visible, onDismiss, musicEnabled }) {
   );
 }
 
+function TraditionalDoorIntro({ visible, visitorName, onNameChange, onEnter, opening }) {
+  if (!visible) return null;
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 520,
+        background: "radial-gradient(circle at center, rgba(45,16,10,0.92) 0%, rgba(15,6,4,0.98) 78%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
+    >
+      <div style={{ position: "absolute", inset: "3.5vh 3vw", border: "1px solid rgba(255,241,122,0.28)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", inset: "5vh 4vw", border: "1px solid rgba(255,241,122,0.12)", pointerEvents: "none" }} />
+      {[
+        { left: 0, origin: "left center", transform: opening ? "perspective(1400px) rotateY(-102deg)" : "perspective(1400px) rotateY(0deg)" },
+        { right: 0, origin: "right center", transform: opening ? "perspective(1400px) rotateY(102deg)" : "perspective(1400px) rotateY(0deg)" },
+      ].map((panel, index) => (
+        <div
+          key={index}
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            width: "50%",
+            [index === 0 ? "left" : "right"]: 0,
+            transformOrigin: panel.origin,
+            transform: panel.transform,
+            transition: "transform 1.5s ease",
+            background:
+              "linear-gradient(180deg, rgba(121,18,18,0.98) 0%, rgba(95,14,14,0.99) 45%, rgba(63,10,10,0.99) 100%)",
+            borderLeft: index === 1 ? "2px solid rgba(255,241,122,0.2)" : "none",
+            borderRight: index === 0 ? "2px solid rgba(255,241,122,0.2)" : "none",
+            boxShadow: index === 0 ? "inset -18px 0 30px rgba(0,0,0,0.28)" : "inset 18px 0 30px rgba(0,0,0,0.28)",
+          }}
+        >
+          <div style={{ position: "absolute", inset: "6% 10%", border: "1px solid rgba(255,241,122,0.38)" }} />
+          <div style={{ position: "absolute", inset: "10% 15%", border: "1px solid rgba(255,241,122,0.18)" }} />
+          {[20, 38, 56, 74].map((top) => (
+            <div key={top} style={{ position: "absolute", left: "16%", right: "16%", top: `${top}%`, height: "1px", background: "rgba(255,241,122,0.16)" }} />
+          ))}
+          <div style={{ position: "absolute", top: "50%", [index === 0 ? "right" : "left"]: "8%", transform: "translateY(-50%)", width: "22px", height: "22px", borderRadius: "50%", border: "2px solid rgba(255,241,122,0.7)", boxShadow: "0 0 18px rgba(255,241,122,0.15)" }} />
+        </div>
+      ))}
+
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          width: "min(560px, 92vw)",
+          padding: "2.2rem 2rem",
+          background: "rgba(247,241,230,0.92)",
+          border: "1px solid rgba(201,160,80,0.65)",
+          textAlign: "center",
+          opacity: opening ? 0 : 1,
+          transform: opening ? "translateY(14px)" : "translateY(0)",
+          transition: "opacity 0.45s ease, transform 0.45s ease",
+        }}
+      >
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.6rem", letterSpacing: "0.24em", textTransform: "uppercase", color: "#8b1a1a", marginBottom: "0.8rem" }}>
+          Before You Enter
+        </p>
+        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", fontStyle: "italic", fontWeight: 400, color: "#2a1a0e", marginBottom: "0.8rem" }}>
+          A Traditional Door Opens
+        </h2>
+        <p style={{ fontFamily: "'Source Serif 4',serif", fontSize: "1.02rem", lineHeight: 1.8, color: "rgba(42,26,14,0.8)", marginBottom: "1.2rem" }}>
+          Share your name, and the exhibit will welcome you personally before the doors part.
+        </p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onEnter();
+          }}
+        >
+          <input
+            value={visitorName}
+            onChange={(e) => onNameChange(e.target.value)}
+            placeholder="Enter your name"
+            style={{
+              width: "100%",
+              padding: "0.95rem 1rem",
+              border: "1px solid rgba(139,26,26,0.35)",
+              background: "rgba(255,255,255,0.7)",
+              fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif",
+              fontSize: "0.96rem",
+              color: "#2a1a0e",
+              marginBottom: "1rem",
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "0.9rem 1rem",
+              background: "linear-gradient(90deg,#8b1a1a,#b8892a)",
+              color: "#fff7d1",
+              border: "1px solid rgba(255,241,122,0.55)",
+              fontFamily: "'DM Sans',sans-serif",
+              fontSize: "0.66rem",
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+            }}
+          >
+            Enter The Exhibit
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function FaqChatBot({ visitorName }) {
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([
+    {
+      sender: "bot",
+      text: `Welcome${visitorName ? `, ${visitorName}` : ""}. Ask me about the exhibit’s thesis, sources, analysis, or key sections.`,
+    },
+  ]);
+
+  useEffect(() => {
+    setMessages((current) => {
+      if (!current.length || current[0].sender !== "bot") return current;
+      const updated = [...current];
+      updated[0] = {
+        ...updated[0],
+        text: `Welcome${visitorName ? `, ${visitorName}` : ""}. Ask me about the exhibit’s thesis, sources, analysis, or key sections.`,
+      };
+      return updated;
+    });
+  }, [visitorName]);
+
+  const answerFaq = (question) => {
+    const normalized = question.toLowerCase();
+    return FAQ_BANK.find((item) => item.keywords.some((keyword) => normalized.includes(keyword))) || null;
+  };
+
+  const submitQuestion = (questionText) => {
+    const trimmed = questionText.trim();
+    if (!trimmed) return;
+    const match = answerFaq(trimmed);
+    setMessages((current) => [
+      ...current,
+      { sender: "user", text: trimmed },
+      {
+        sender: "bot",
+        text: match
+          ? match.a
+          : "I can help with the exhibit’s thesis, major sections, primary sources, secondary sources, analysis, and resistance. Try asking about one of those topics.",
+      },
+    ]);
+    setInput("");
+  };
+
+  return (
+    <div style={{ position: "fixed", right: "1.25rem", bottom: "1.25rem", zIndex: 360, width: open ? "min(360px, calc(100vw - 2rem))" : "auto" }}>
+      {open && (
+        <div style={{ marginBottom: "0.75rem", background: "var(--bg)", border: "1px solid var(--gold-foil)", boxShadow: "0 18px 36px rgba(0,0,0,0.22)" }}>
+          <div style={{ padding: "0.9rem 1rem", borderBottom: "1px solid var(--rule)", background: "linear-gradient(90deg,var(--panel),var(--panel2))" }}>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-foil)", marginBottom: "0.3rem" }}>
+              Exhibit Guide
+            </p>
+            <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", fontStyle: "italic", color: "var(--on-panel-xl)" }}>
+              FAQ Chatbot
+            </p>
+          </div>
+          <div style={{ padding: "0.9rem 1rem", maxHeight: "340px", overflow: "auto", display: "grid", gap: "0.7rem" }}>
+            {messages.map((message, index) => (
+              <div key={index} style={{ justifySelf: message.sender === "user" ? "end" : "start", maxWidth: "92%" }}>
+                <div
+                  style={{
+                    padding: "0.72rem 0.82rem",
+                    background: message.sender === "user" ? "var(--red)" : "var(--bg2)",
+                    color: message.sender === "user" ? "#fff7d1" : "var(--ink-light)",
+                    border: `1px solid ${message.sender === "user" ? "rgba(255,241,122,0.28)" : "var(--card-border)"}`,
+                    fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif",
+                    fontSize: "0.82rem",
+                    lineHeight: 1.62,
+                  }}
+                >
+                  {message.text}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ padding: "0 1rem 0.85rem", display: "flex", flexWrap: "wrap", gap: "0.45rem" }}>
+            {FAQ_BANK.slice(0, 4).map((item) => (
+              <button
+                key={item.q}
+                onClick={() => submitQuestion(item.q)}
+                style={{
+                  background: "var(--bg2)",
+                  border: "1px solid var(--card-border)",
+                  color: "var(--red-mid)",
+                  padding: "0.45rem 0.55rem",
+                  cursor: "pointer",
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: "0.55rem",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {item.q}
+              </button>
+            ))}
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitQuestion(input);
+            }}
+            style={{ padding: "0 1rem 1rem", display: "grid", gap: "0.55rem" }}
+          >
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask a question about the exhibit"
+              style={{
+                width: "100%",
+                padding: "0.78rem 0.82rem",
+                border: "1px solid var(--card-border)",
+                background: "var(--bg2)",
+                fontFamily: "'Atkinson Hyperlegible','DM Sans',sans-serif",
+                fontSize: "0.82rem",
+                color: "var(--ink)",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                padding: "0.72rem 0.85rem",
+                background: "linear-gradient(90deg,var(--red),var(--gold-foil))",
+                color: "#fff7d1",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: "'DM Sans',sans-serif",
+                fontSize: "0.6rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+              }}
+            >
+              Send Question
+            </button>
+          </form>
+        </div>
+      )}
+
+      <button
+        onClick={() => setOpen((current) => !current)}
+        style={{
+          width: open ? "100%" : "auto",
+          padding: "0.8rem 1rem",
+          background: "var(--toggle-bg)",
+          border: "1px solid var(--gold-foil)",
+          borderRadius: "999px",
+          color: "var(--toggle-fg)",
+          cursor: "pointer",
+          boxShadow: "0 10px 28px rgba(0,0,0,0.18)",
+          fontFamily: "'DM Sans',sans-serif",
+          fontSize: "0.62rem",
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+        }}
+      >
+        {open ? "Close FAQ Guide" : "Open FAQ Guide"}
+      </button>
+    </div>
+  );
+}
+
 const Label = ({ children, onPanel = false }) => (
   <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", marginBottom: "1.1rem" }}>
     <div style={{ width: "20px", height: "1px", background: onPanel ? "rgba(201,160,80,0.5)" : "var(--rule-red)" }} />
@@ -1925,6 +2287,9 @@ export default function App() {
   const [heroReady, setHeroReady] = useState(false);
   const [activeVisual, setActiveVisual] = useState(null);
   const [showLanternOverlay, setShowLanternOverlay] = useState(false);
+  const [showDoorIntro, setShowDoorIntro] = useState(true);
+  const [doorOpening, setDoorOpening] = useState(false);
+  const [visitorName, setVisitorName] = useState("");
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [musicKey, setMusicKey] = useState(0);
@@ -1965,6 +2330,17 @@ export default function App() {
 
   const dismissLanternOverlay = () => {
     setShowLanternOverlay(false);
+  };
+
+  const enterExhibit = () => {
+    if (doorOpening) return;
+    if (!visitorName.trim()) {
+      setVisitorName("Honored Guest");
+    }
+    setDoorOpening(true);
+    window.setTimeout(() => {
+      setShowDoorIntro(false);
+    }, 1450);
   };
 
   const toggleMusic = async () => {
@@ -2014,6 +2390,13 @@ export default function App() {
       )}
       <FontLoader />
       <GlobalStyles theme={theme} />
+      <TraditionalDoorIntro
+        visible={showDoorIntro}
+        visitorName={visitorName}
+        onNameChange={setVisitorName}
+        onEnter={enterExhibit}
+        opening={doorOpening}
+      />
       <ProgressBar />
       <SideNav />
       <AccessibilityDock
@@ -2079,6 +2462,9 @@ export default function App() {
             >
               viviennehnin.com
             </a>
+          </p>
+          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1rem", fontStyle: "italic", color: "var(--gold-foil)", marginBottom: "0.95rem" }}>
+            Welcome{visitorName ? `, ${visitorName}` : ""}.
           </p>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--ink-light)", marginBottom: "0.55rem" }}>
             A Digital Historical Exhibit
@@ -2147,6 +2533,16 @@ export default function App() {
             {EARLY_VISUALS.map((item, i) => (
               <InlineVisualCard key={item.title} item={item} delay={0.04 * i} onOpen={setActiveVisual} />
             ))}
+          </div>
+        </Reveal>
+        <Reveal delay={0.15} style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ marginTop: "2rem", padding: "1.35rem 1.5rem", border: "1px solid var(--rule)", background: "linear-gradient(135deg, rgba(201,160,80,0.08), rgba(139,26,26,0.04))" }}>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.45rem" }}>
+              Personalized Welcome
+            </p>
+            <p style={{ fontFamily: "'Source Serif 4',serif", fontSize: "1rem", lineHeight: 1.78, color: "var(--ink-mid)" }}>
+              {visitorName ? `${visitorName}, this exhibit invites you to move slowly through evidence, images, and interpretation.` : "This exhibit invites you to move slowly through evidence, images, and interpretation."} Open the archive cards, use the FAQ guide in the corner, and read the source notes as part of the story itself.
+            </p>
           </div>
         </Reveal>
         <ScholarlyPanel />
@@ -2319,7 +2715,7 @@ export default function App() {
           <Body>
             The surviving visual record is fragmentary, but it helps situate Chinese women within broader worlds of migration, family, inspection, and urban life. Click any image to open it full size.
           </Body>
-          <CitationPills ids={["customhouse", "sacramento", "chinatownmap"]} />
+          <CitationPills ids={["customhouse", "sacramento", "chinatownmap", "barracks", "portrait"]} />
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "1.35rem", position: "relative", zIndex: 1 }}>
           {VISUAL_ARCHIVE.map((item, i) => (
@@ -2368,6 +2764,8 @@ export default function App() {
           <SourceCard title="Chinese Immigrants at the San Francisco Custom House" year="1877" desc="A wood engraving of Chinese immigrants at a San Francisco inspection site, showing arrival as bureaucratic sorting and surveillance." delay={0.35} />
           <SourceCard title='Official Map of "Chinatown" in San Francisco' year="1885" desc='This map documents businesses, occupancies, gambling houses, and racialized labeling of Chinatown block by block.' delay={0.42} />
           <SourceCard title="San Francisco, Calif. — China Town, Sacramento St." year="1866" desc="An albumen street view that places migration and commerce inside a lived urban environment rather than a purely sensational one." delay={0.49} />
+          <SourceCard title="Chinese Quarter, San Francisco Barracks" year="Late 19th c." desc="A photograph of dense urban quarters that helps visualize confinement, surveillance, and the built environment of exclusion." delay={0.56} />
+          <SourceCard title="Studio Portrait of a Chinese Woman" year="19th c." desc="A formal portrait that restores individuality and presence to a record that often reduced women to statistics or stereotypes." delay={0.63} />
         </div>
         <ExhibitImage
           src={IMG_CUSTOM_HOUSE}
@@ -2449,10 +2847,20 @@ export default function App() {
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
               Shah, Nayan. <em>Contagious Divides: Epidemics and Race in San Francisco's Chinatown</em>. Berkeley: University of California Press, 2001.
             </p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+              Lee, Erika. <em>At America's Gates: Chinese Immigration during the Exclusion Era, 1882-1943</em>. Chapel Hill: University of North Carolina Press, 2003.
+            </p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+              Gyory, Andrew. <em>Closing the Gate: Race, Politics, and the Chinese Exclusion Act</em>. Chapel Hill: University of North Carolina Press, 1998.
+            </p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", lineHeight: 1.72, color: "var(--ink-light)", paddingLeft: "1.5rem", textIndent: "-1.5rem" }}>
+              Takaki, Ronald. <em>Strangers from a Different Shore: A History of Asian Americans</em>. Boston: Little, Brown, 1998.
+            </p>
           </div>
         </div>
       </footer>
       </main>
+      <FaqChatBot visitorName={visitorName.trim()} />
       <Lightbox item={activeVisual} onClose={() => setActiveVisual(null)} />
     </div>
   );
