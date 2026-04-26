@@ -2292,6 +2292,7 @@ export default function App() {
   const [activeVisual, setActiveVisual] = useState(null);
   const [showLanternOverlay, setShowLanternOverlay] = useState(false);
   const [showDoorIntro, setShowDoorIntro] = useState(true);
+  const [hasEnteredExhibit, setHasEnteredExhibit] = useState(false);
   const [doorOpening, setDoorOpening] = useState(false);
   const [visitorName, setVisitorName] = useState("");
   const [musicEnabled, setMusicEnabled] = useState(true);
@@ -2323,14 +2324,14 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (musicEnabled) {
+    if (musicEnabled && hasEnteredExhibit) {
       setMusicKey((current) => current + 1);
       const retry = window.setTimeout(() => {
         setMusicKey((current) => current + 1);
-      }, 700);
+      }, 900);
       return () => window.clearTimeout(retry);
     }
-  }, [musicEnabled]);
+  }, [musicEnabled, hasEnteredExhibit]);
 
   const cycleTheme = () => {
     setTheme((current) => (current === "light" ? "dark" : current === "dark" ? "contrast" : "light"));
@@ -2345,6 +2346,7 @@ export default function App() {
     if (!visitorName.trim()) {
       setVisitorName("Honored Guest");
     }
+    setHasEnteredExhibit(true);
     setDoorOpening(true);
     window.setTimeout(() => {
       setShowDoorIntro(false);
@@ -2387,7 +2389,7 @@ export default function App() {
 
   return (
     <div style={{ background: "var(--bg)", minHeight: "100vh", overflowX: "hidden", transition: "background 0.4s ease" }}>
-      {musicEnabled && (
+      {musicEnabled && hasEnteredExhibit && (
         <iframe
           key={musicKey}
           title="Ambient soundtrack"
