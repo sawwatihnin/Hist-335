@@ -672,6 +672,51 @@ const MANDARIN_SECTIONS = [
   },
 ];
 
+const CANTONESE_SECTIONS = [
+  {
+    key: "overview",
+    label: "總論",
+    heading: "展覽主旨",
+    body:
+      "呢個展覽認為，加州淘金熱唔只係機會同發財嘅故事。對好多華人女性嚟講，佢同時都係一個由種族歧視、性別失衡、勞動需求同法律排斥一齊造成嘅強制體系。",
+  },
+  {
+    key: "migration",
+    label: "遷移",
+    heading: "遷移與抵埗",
+    body:
+      "華人女性跨太平洋遷移，往往唔係自由流動，而係同債務、檢查、港口監管同中間人控制交纏埋一齊。到咗舊金山之後，好多人即刻被放入一套監視同分類制度之中。",
+  },
+  {
+    key: "trafficking",
+    label: "販運",
+    heading: "販運體系",
+    body:
+      "人口販運唔係偶然發生。佢靠購買、運輸、債務記帳、暴力威脅同社會孤立去維持。所謂「合同」經常用嚟將強迫包裝成債務責任，令女性幾乎冇可能脫身。",
+  },
+  {
+    key: "race",
+    label: "種族",
+    heading: "種族化性剝削",
+    body:
+      "華人女性之所以特別脆弱，係因為美國社會將佢哋描繪成「外來者」、道德危險，或者公共衛生問題。呢啲種族想像降低咗社會對暴力同剝削嘅警覺。",
+  },
+  {
+    key: "resistance",
+    label: "抗爭",
+    heading: "抗爭與生存",
+    body:
+      "展覽亦都強調女性嘅能動性。逃走、去傳教所尋求庇護、透過傳譯員作供、運用法律程序，同依靠社區網絡，全部都係佢哋爭取生存空間嘅重要方式。",
+  },
+  {
+    key: "sources",
+    label: "史料",
+    heading: "主要與次要史料",
+    body:
+      "本展覽使用人口普查、法院判決、傳教所紀錄、地圖、木刻版畫同歷史照片等主要史料，並結合 Lucie Cheng Hirata、Benson Tong、Judy Yung、Nayan Shah 等學者研究去作分析。",
+  },
+];
+
 const POPULATION_TIMELINE = [
   {
     year: 1852,
@@ -1949,8 +1994,10 @@ function FaqChatBot({ visitorName }) {
 
 function MandarinTranslator({ visitorName }) {
   const [open, setOpen] = useState(false);
+  const [language, setLanguage] = useState("mandarin");
   const [activeKey, setActiveKey] = useState("overview");
-  const activeSection = MANDARIN_SECTIONS.find((section) => section.key === activeKey) || MANDARIN_SECTIONS[0];
+  const sectionSet = language === "cantonese" ? CANTONESE_SECTIONS : MANDARIN_SECTIONS;
+  const activeSection = sectionSet.find((section) => section.key === activeKey) || sectionSet[0];
 
   return (
     <div style={{ position: "fixed", left: "1.25rem", bottom: "1.25rem", zIndex: 350, width: open ? "min(390px, calc(100vw - 2rem))" : "auto" }}>
@@ -1964,11 +2011,36 @@ function MandarinTranslator({ visitorName }) {
               中文导览
             </p>
             <p style={{ fontFamily: "'Source Serif 4',serif", fontSize: "0.86rem", lineHeight: 1.6, color: "var(--on-panel)" }}>
-              欢迎{visitorName ? `，${visitorName}` : ""}。这里提供展览重点的普通话简要说明。
+              {language === "cantonese"
+                ? `歡迎${visitorName ? `，${visitorName}` : ""}。呢度提供展覽重點嘅廣東話簡要說明。`
+                : `欢迎${visitorName ? `，${visitorName}` : ""}。这里提供展览重点的普通话简要说明。`}
             </p>
           </div>
+          <div style={{ padding: "0.75rem 1rem 0.2rem", display: "flex", gap: "0.5rem" }}>
+            {[
+              { key: "mandarin", label: "Mandarin / 普通话" },
+              { key: "cantonese", label: "Cantonese / 廣東話" },
+            ].map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setLanguage(item.key)}
+                style={{
+                  background: language === item.key ? "var(--red)" : "var(--bg2)",
+                  color: language === item.key ? "#fff7d1" : "var(--red-mid)",
+                  border: `1px solid ${language === item.key ? "rgba(255,241,122,0.32)" : "var(--card-border)"}`,
+                  padding: "0.45rem 0.65rem",
+                  cursor: "pointer",
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: "0.58rem",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
           <div style={{ padding: "0.9rem 1rem", display: "flex", flexWrap: "wrap", gap: "0.45rem", borderBottom: "1px solid var(--rule)" }}>
-            {MANDARIN_SECTIONS.map((section) => (
+            {sectionSet.map((section) => (
               <button
                 key={section.key}
                 onClick={() => setActiveKey(section.key)}
