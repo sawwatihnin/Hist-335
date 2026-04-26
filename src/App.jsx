@@ -627,6 +627,51 @@ const FAQ_BANK = [
   },
 ];
 
+const MANDARIN_SECTIONS = [
+  {
+    key: "overview",
+    label: "总论",
+    heading: "展览主旨",
+    body:
+      "本展览认为，加州淘金热并不只是机会与财富的故事。对许多华人女性而言，它也是一个由种族歧视、性别失衡、劳动力需求与法律排斥共同塑造的强制体系。",
+  },
+  {
+    key: "migration",
+    label: "迁移",
+    heading: "迁移与抵达",
+    body:
+      "华人女性的跨太平洋迁移常常不是自由移动，而是与债务、检查、港口监管和中间人控制交织在一起。到达旧金山之后，许多人立刻进入被监视和分类的制度。",
+  },
+  {
+    key: "trafficking",
+    label: "贩运",
+    heading: "贩运体系",
+    body:
+      "人口贩运并非偶然发生。它依赖购买、运输、债务记账、暴力威胁与社会孤立。所谓“合同”常被用来把强迫包装成债务责任，使女性几乎无法脱身。",
+  },
+  {
+    key: "race",
+    label: "种族",
+    heading: "种族化的性剥削",
+    body:
+      "华人女性之所以特别脆弱，是因为她们被美国社会描绘成“外来者”、道德危险或公共卫生问题。这样的种族想象降低了社会对暴力与剥削的警觉。",
+  },
+  {
+    key: "resistance",
+    label: "抗争",
+    heading: "抗争与生存",
+    body:
+      "展览也强调女性的能动性。逃离、寻求传教所庇护、借助翻译作证、运用法律程序以及依靠社区网络，都是她们争取生存空间的重要方式。",
+  },
+  {
+    key: "sources",
+    label: "史料",
+    heading: "主要与次要史料",
+    body:
+      "本展览使用人口普查、法院判决、传教所记录、地图、木刻版画与历史照片等主要史料，并结合 Lucie Cheng Hirata、Benson Tong、Judy Yung、Nayan Shah 等学者的研究进行分析。",
+  },
+];
+
 const POPULATION_TIMELINE = [
   {
     year: 1852,
@@ -1902,6 +1947,79 @@ function FaqChatBot({ visitorName }) {
   );
 }
 
+function MandarinTranslator({ visitorName }) {
+  const [open, setOpen] = useState(false);
+  const [activeKey, setActiveKey] = useState("overview");
+  const activeSection = MANDARIN_SECTIONS.find((section) => section.key === activeKey) || MANDARIN_SECTIONS[0];
+
+  return (
+    <div style={{ position: "fixed", left: "1.25rem", bottom: "1.25rem", zIndex: 350, width: open ? "min(390px, calc(100vw - 2rem))" : "auto" }}>
+      {open && (
+        <div style={{ marginBottom: "0.75rem", background: "var(--bg)", border: "1px solid var(--gold-foil)", boxShadow: "0 18px 36px rgba(0,0,0,0.22)" }}>
+          <div style={{ padding: "0.95rem 1rem", borderBottom: "1px solid var(--rule)", background: "var(--panel)" }}>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold-foil)", marginBottom: "0.3rem" }}>
+              Chinese Guide
+            </p>
+            <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", fontStyle: "italic", color: "var(--on-panel-xl)", marginBottom: "0.25rem" }}>
+              中文导览
+            </p>
+            <p style={{ fontFamily: "'Source Serif 4',serif", fontSize: "0.86rem", lineHeight: 1.6, color: "var(--on-panel)" }}>
+              欢迎{visitorName ? `，${visitorName}` : ""}。这里提供展览重点的普通话简要说明。
+            </p>
+          </div>
+          <div style={{ padding: "0.9rem 1rem", display: "flex", flexWrap: "wrap", gap: "0.45rem", borderBottom: "1px solid var(--rule)" }}>
+            {MANDARIN_SECTIONS.map((section) => (
+              <button
+                key={section.key}
+                onClick={() => setActiveKey(section.key)}
+                style={{
+                  background: activeKey === section.key ? "var(--red)" : "var(--bg2)",
+                  color: activeKey === section.key ? "#fff7d1" : "var(--red-mid)",
+                  border: `1px solid ${activeKey === section.key ? "rgba(255,241,122,0.32)" : "var(--card-border)"}`,
+                  padding: "0.45rem 0.6rem",
+                  cursor: "pointer",
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {section.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ padding: "1rem" }}>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "0.58rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--red-mid)", marginBottom: "0.45rem" }}>
+              {activeSection.heading}
+            </p>
+            <p style={{ fontFamily: "'Source Serif 4',serif", fontSize: "1rem", lineHeight: 1.85, color: "var(--ink-mid)" }}>
+              {activeSection.body}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <button
+        onClick={() => setOpen((current) => !current)}
+        style={{
+          padding: "0.8rem 1rem",
+          background: "var(--toggle-bg)",
+          border: "1px solid var(--gold-foil)",
+          borderRadius: "999px",
+          color: "var(--toggle-fg)",
+          cursor: "pointer",
+          boxShadow: "0 10px 28px rgba(0,0,0,0.18)",
+          fontFamily: "'DM Sans',sans-serif",
+          fontSize: "0.62rem",
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+        }}
+      >
+        {open ? "Close Chinese Guide" : "Open Chinese Guide"}
+      </button>
+    </div>
+  );
+}
+
 const Label = ({ children, onPanel = false }) => (
   <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", marginBottom: "1.1rem" }}>
     <div style={{ width: "20px", height: "1px", background: onPanel ? "rgba(201,160,80,0.5)" : "var(--rule-red)" }} />
@@ -2874,6 +2992,7 @@ export default function App() {
         </div>
       </footer>
       </main>
+      <MandarinTranslator visitorName={visitorName.trim()} />
       <FaqChatBot visitorName={visitorName.trim()} />
       <Lightbox item={activeVisual} onClose={() => setActiveVisual(null)} />
     </div>
